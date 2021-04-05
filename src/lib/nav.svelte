@@ -6,15 +6,25 @@
 	@import './theme.scss';
 
 	.nav {
-		height: 56px;
+		height: 54px;
+
 		padding: 16px;
+		margin: 0;
+		box-sizing: border-box;
+
+		background: $primary;
+
+		display: flex;
+		align-items: center;
 		&__title {
+			margin: 0;
+
 			font-family: 'Rubik';
 			font-weight: 500;
 			font-size: 20px;
 			text-transform: capitalize;
 
-			background: $primary;
+			color: white;
 		}
 	}
 </style>
