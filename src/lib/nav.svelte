@@ -3,7 +3,7 @@
 </header>
 
 <style lang="scss">
-	@import './theme.scss';
+	@import '../theme.scss';
 
 	.nav {
 		height: 54px;
