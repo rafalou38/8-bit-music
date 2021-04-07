@@ -19,7 +19,9 @@
 	<Nav />
 	<div class="wrapper">
 		<Sidebar />
-		<slot />
+		<main>
+			<slot />
+		</main>
 	</div>
 </div>
 
@@ -32,5 +34,11 @@
 	.wrapper {
 		display: flex;
 		flex-grow: 1;
+	}
+	main {
+		display: flex;
+		flex-grow: 1;
+
+		position: relative;
 	}
 </style>
