@@ -1,3 +1,5 @@
+dependencies:
+  tone: 14.7.77
 devDependencies:
   '@sveltejs/adapter-node': 1.0.0-next.12
   '@sveltejs/kit': 1.0.0-next.71_svelte@3.37.0+vite@2.1.5
@@ -34,6 +36,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-5aPpe5XQPzflQrFwL1/QoeHkP2MsA4JCntcXHRhEsdsfPVkvPi2w7Qix4iV7t5S/oC9OodGrggd8aco1g3SZFg==
+  /@babel/runtime/7.13.10:
+    dependencies:
+      regenerator-runtime: 0.13.7
+    dev: false
+    resolution:
+      integrity: sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
   /@eslint/eslintrc/0.4.0:
     dependencies:
       ajv: 6.12.6
@@ -91,7 +99,7 @@ packages:
       integrity: sha512-DGP3dT5ijsTV0zmLDmZP8wI4RjZlifGGzA0y4HLoWNEKhZJLDjFDJnNcA+O5S9QBxQOVaYUlAY2z19r+skBVjA==
   /@sveltejs/kit/1.0.0-next.71_svelte@3.37.0+vite@2.1.5:
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 1.0.0-next.5_svelte@3.37.0+vite@2.1.5
+      '@sveltejs/vite-plugin-svelte': 1.0.0-next.6_svelte@3.37.0+vite@2.1.5
       cheap-watch: 1.0.3
       sade: 1.7.4
       svelte: 3.37.0
@@ -105,7 +113,7 @@ packages:
       vite: ^2.1.0
     resolution:
       integrity: sha512-9oZEKtuFpmJanL0u7oJPWIoC4kWMtNSuN1SN7xKo+g54xI6JcsoH2J15OkTU89Hsd9Ctp4/OTh9j6/vgq9J7gw==
-  /@sveltejs/vite-plugin-svelte/1.0.0-next.5_svelte@3.37.0+vite@2.1.5:
+  /@sveltejs/vite-plugin-svelte/1.0.0-next.6_svelte@3.37.0+vite@2.1.5:
     dependencies:
       '@rollup/pluginutils': 4.1.0
       chalk: 4.1.0
@@ -115,16 +123,16 @@ packages:
       slash: 3.0.0
       source-map: 0.7.3
       svelte: 3.37.0
-      svelte-hmr: 0.13.3_svelte@3.37.0
+      svelte-hmr: 0.14.0_svelte@3.37.0
       vite: 2.1.5
     dev: true
     engines:
       node: '>=12.0.0'
     peerDependencies:
-      svelte: ^3.35.0
-      vite: ^2.1.2
+      svelte: ^3.37.0
+      vite: ^2.1.5
     resolution:
-      integrity: sha512-RVjafsqziWwnQm8VEy2y0qNaugNDvRd8tTaCt9rjgQkqaS/BDiyDCluXxA28PRC+ddZjvwUeq9k+0EfbLVObfg==
+      integrity: sha512-P+skZslGT+zPXRH9SlEu21LXuFpkQITRcvQb/NRpZHrxj04VDRbuKwksOfq+vDHO/K4HWioXIAQoQnJ3oomItw==
   /@types/json-schema/7.0.7:
     dev: true
     resolution:
@@ -380,6 +388,15 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
+  /automation-events/3.0.10:
+    dependencies:
+      '@babel/runtime': 7.13.10
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=10.15.3'
+    resolution:
+      integrity: sha512-oRtvczB5dqQoTPqtLeAQbVJk0t5rxdeUcIABFU0OdCC8FasghUVxAj/JDIaA0XJ2IfWv8hqe4kFQ93DkmoK4/A==
   /balanced-match/1.0.0:
     dev: true
     resolution:
@@ -1217,6 +1234,10 @@ packages:
       node: '>=8.10.0'
     resolution:
       integrity: sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==
+  /regenerator-runtime/0.13.7:
+    dev: false
+    resolution:
+      integrity: sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
   /regexpp/3.1.0:
     dev: true
     engines:
@@ -1347,6 +1368,14 @@ packages:
     dev: true
     resolution:
       integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+  /standardized-audio-context/25.1.14:
+    dependencies:
+      '@babel/runtime': 7.13.10
+      automation-events: 3.0.10
+      tslib: 2.2.0
+    dev: false
+    resolution:
+      integrity: sha512-05YHHeJGcpZTXUW50RcTZizfoQrRYzDiHUT774erKD11b0lauL0kXKLGx5pFnVDRrQ3mxTu5wmNxA42vlChF4w==
   /string-width/4.2.2:
     dependencies:
       emoji-regex: 8.0.0
@@ -1395,14 +1424,14 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
-  /svelte-hmr/0.13.3_svelte@3.37.0:
+  /svelte-hmr/0.14.0_svelte@3.37.0:
     dependencies:
       svelte: 3.37.0
     dev: true
     peerDependencies:
       svelte: '>=3.19.0'
     resolution:
-      integrity: sha512-gagW62pLQ2lULmvNA3pIZu9pBCYOaGu3rQikUOv6Nokz5VxUgT9/mQLfMxj9phDEKHCg/lgr3i6PkqZDbO9P2Q==
+      integrity: sha512-Rc4w11U+U30m/cHqOJ/xioFSEAY5fd5muiQC7FL6XJuJAuB2OIJoEZl3KEJR2uO1/f4Bw0PdrugtbxcngSsOtQ==
   /svelte-preprocess/4.7.0_366d3dcecfe4efc98749bfc698a742db:
     dependencies:
       '@types/pug': 2.0.4
@@ -1488,6 +1517,13 @@ packages:
       node: '>=8.0'
     resolution:
       integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
+  /tone/14.7.77:
+    dependencies:
+      standardized-audio-context: 25.1.14
+      tslib: 2.2.0
+    dev: false
+    resolution:
+      integrity: sha512-tCfK73IkLHyzoKUvGq47gyDyxiKLFvKiVCOobynGgBB9Dl0NkxTM2p+eRJXyCYrjJwy9Y0XCMqD3uOYsYt2Fdg==
   /tslib/1.14.1:
     dev: true
     resolution:
@@ -1496,6 +1532,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
+  /tslib/2.2.0:
+    dev: false
+    resolution:
+      integrity: sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
   /tsutils/3.21.0_typescript@4.2.3:
     dependencies:
       tslib: 1.14.1
@@ -1594,6 +1634,7 @@ specifiers:
   sass: ^1.0.0
   svelte: ^3.29.0
   svelte-preprocess: ^4.0.0
+  tone: ^14.7.77
   tslib: ^2.0.0
   typescript: ^4.0.0
   vite: ^2.1.0
