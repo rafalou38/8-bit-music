@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Board from '$lib/editor/board.svelte';
+	import ToolBar from '$lib/editor/topBar.svelte';
 	import { map, uniqueID } from '$lib/helpers';
 
 	let keys_count = 30;
@@ -51,10 +52,17 @@
 			keys: []
 		});
 	}
+
+	let EToolBar: ToolBar;
+	function handleAction(action: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') {
+		console.log({ action, playing: EToolBar.playing, looping: EToolBar.looping });
+	}
 </script>
 
 <div class="wrapper">
+	<ToolBar onAction={handleAction} bind:this={EToolBar} />
 	<input type="checkbox" bind:checked={multiple_alowed} />
+
 	<Board {notes} {keys_count} {multiple_alowed} />
 </div>
 
