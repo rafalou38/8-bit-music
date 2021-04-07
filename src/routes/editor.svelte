@@ -6,7 +6,13 @@
 	function default_key() {
 		return { duration: 1, id: uniqueID(), active: false };
 	}
+	function toggle_key(ny: number, ky: number) {
+		const key = notes[ny].keys[ky];
+		key.active = !key.active;
+		notes[ny].keys[ky] = key;
+	}
 
+	let sliding = false;
 	let keys_count = 5;
 	let notes = [
 		{
@@ -58,10 +64,12 @@
 	}
 </script>
 
+<svelte:body on:mouseup={() => (sliding = false)} />
+
 <div class="wrapper">
 	<table class="board" cellspacing="0">
-		<tbody>
-			{#each notes as note (note.id)}
+		<tbody on:mousedown={() => (sliding = true)}>
+			{#each notes as note, ny (note.id)}
 				<tr>
 					<th
 						class="board__cell board__cell--note"
@@ -71,14 +79,19 @@
 						on:click={() => {
 							notes = notes.filter((e) => e.id != note.id);
 						}}><div class="board__cell__label">{note.label}</div></th
-					>{#each note.keys as key, i (key.id)}
+					>{#each note.keys as key, ky (key.id)}
 						<td
 							class="board__cell board__cell--key"
 							style={key.active ? `background: ${note.color};` : ''}
-							in:fly={{ x: -20, duration: 100, delay: i * 5 }}
-							out:fly={{ x: -20, duration: 100, delay: i * 5 }}
-							on:click={() => {
-								key.active = !key.active;
+							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
+							out:fly={{ x: -20, duration: 100, delay: ky * 5 }}
+							on:mouseenter={() => {
+								if (sliding) {
+									toggle_key(ny, ky);
+								}
+							}}
+							on:mousedown={() => {
+								toggle_key(ny, ky);
 							}}
 						/>{/each}
 				</tr>
