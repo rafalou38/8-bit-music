@@ -1,56 +1,82 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-
-	import { uniqueID } from '$lib/helpers';
-
+	import { map, uniqueID } from '$lib/helpers';
+	import { onMount } from 'svelte';
+	import * as Tone from 'tone';
+	let synth: Tone.Synth<Tone.SynthOptions>;
+	let sliding = false;
+	let keys_count = 30;
+	let multiple_alowed = false;
+	let rawNotes = [
+		'C1',
+		'D1',
+		'E1',
+		'F1',
+		'G1',
+		'A1',
+		'B1',
+		'C2',
+		'D2',
+		'E2',
+		'F2',
+		'G2',
+		'A2',
+		'B2',
+		'C3',
+		'D3',
+		'E3',
+		'F3',
+		'G3',
+		'A3',
+		'B3',
+		'C4',
+		'D4',
+		'E4',
+		'F4',
+		'G4',
+		'A4',
+		'B4',
+		'C5',
+		'D5',
+		'E5',
+		'F5',
+		'G5',
+		'A5'
+	];
+	let notes = [];
+	onMount(() => {
+		synth = new Tone.Synth().toDestination();
+	});
 	function default_key() {
 		return { duration: 1, id: uniqueID(), active: false };
 	}
 	function toggle_key(ny: number, ky: number) {
+		let newNotes = notes;
 		const key = notes[ny].keys[ky];
+		if (!multiple_alowed) {
+			for (let i = 0; i < newNotes.length; i++) {
+				if (i !== ny) {
+					newNotes[i].keys[ky].active = false;
+				}
+			}
+		}
 		key.active = !key.active;
-		notes[ny].keys[ky] = key;
+		if (key.active) {
+			synth.triggerAttackRelease(notes[ny].note, 0.1);
+		}
+		notes = newNotes;
 	}
 
-	let sliding = false;
-	let keys_count = 5;
-	let notes = [
-		{
-			label: 'fa',
-			frequency: 400,
+	for (let i = 0; i < rawNotes.length; i++) {
+		const note = rawNotes[i];
+		notes.push({
+			label: note,
+			note: note,
 			id: uniqueID(),
-			color: '#ffa46a',
+			color: `hsl(${map(i, 0, rawNotes.length, 0, 360)}, 100%, 71%)`,
 			keys: []
-		},
-		{
-			label: 'do',
-			frequency: 600,
-			id: uniqueID(),
-			color: '#afa4ea',
-			keys: []
-		},
-		{
-			label: 'sol',
-			frequency: 700,
-			id: uniqueID(),
-			color: '#f0a4aa',
-			keys: []
-		},
-		{
-			label: 'mi',
-			frequency: 500,
-			id: uniqueID(),
-			color: '#00a46a',
-			keys: []
-		},
-		{
-			label: 're',
-			frequency: 750,
-			id: uniqueID(),
-			color: '#ff046a',
-			keys: []
-		}
-	];
+		});
+	}
 
 	$: {
 		for (let i = 0; i < notes.length; i++) {
@@ -65,8 +91,8 @@
 </script>
 
 <svelte:body on:mouseup={() => (sliding = false)} />
-
 <div class="wrapper">
+	<input type="checkbox" bind:checked={multiple_alowed} />
 	<table class="board" cellspacing="0">
 		<tbody on:mousedown={() => (sliding = true)}>
 			{#each notes as note, ny (note.id)}
@@ -117,7 +143,7 @@
 					...notes,
 					{
 						label: 're',
-						frequency: 750,
+						note: 750,
 						id: uniqueID(),
 						color: '#ff046a',
 						keys: []
