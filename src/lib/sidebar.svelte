@@ -40,7 +40,7 @@
 <style lang="scss">
 	@import '../theme.scss';
 	.sidebar {
-		background: lighten($color: $primary, $amount: 3%);
+		background: $primary-light;
 		&__list {
 			padding: 0;
 			margin: 0;
