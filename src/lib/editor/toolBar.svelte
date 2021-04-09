@@ -27,7 +27,7 @@
 		class:active={playing}
 		on:click={() => {
 			playing = !playing;
-			onAction('play');
+			onAction?.('play');
 		}}
 	>
 		{#if playing}
