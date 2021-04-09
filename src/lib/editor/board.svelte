@@ -50,7 +50,18 @@
 
 <svelte:body on:mouseup={() => (sliding = false)} />
 <div class="wrapper" style={`--key-progress: ${key_progess}%`}>
-	<table class="board" cellspacing="0">
+	<div class="goto__container">
+		{#each notes[0].keys as key, ky (key.id)}
+			<div class="goto__container">
+				<button
+					class="goto__btn"
+					class:goto__btn--active={current_row - 1 == ky}
+					on:click={() => setProgress(ky)}
+				/>
+			</div>
+		{/each}
+	</div>
+	<table class="board" cellspacing="0" cellpadding="0">
 		<tbody on:mousedown={() => (sliding = true)}>
 			{#each notes as note, ny (note.id)}
 				<tr>
@@ -80,16 +91,6 @@
 						/>{/each}
 				</tr>
 			{/each}
-			<tr>
-				<td class="board__cell board__cell--key" />
-				{#each notes[0].keys as key, ky (key.id)}
-					<td
-						class="board__cell board__cell--key"
-						on:mousedown={() => {
-							setProgress(ky);
-						}}>{ky}</td
-					>{/each}
-			</tr>
 		</tbody>
 
 		<div class="board__cell board__cell--add-keys">
@@ -144,6 +145,8 @@
 
 			user-select: none;
 			cursor: pointer;
+
+			position: relative;
 			&__label {
 				width: 100%;
 				height: 100%;
@@ -165,13 +168,15 @@
 			}
 			&--key {
 				background-color: #4f5b62;
-				&--active::after {
+				&::after {
 					content: '';
 					height: 100%;
 					width: 5px;
 					display: block;
+				}
+				&--active::after {
 					background: aqua;
-					margin-left: var(--key-progress);
+					margin-left: calc(var(--key-progress) - 2.5px);
 				}
 			}
 			&--round {
@@ -194,6 +199,35 @@
 				box-sizing: border-box;
 				color: white;
 				flex-shrink: 0;
+			}
+		}
+	}
+	$goto_width: 20px;
+	$goto_height: 20px;
+	.goto__container {
+		display: flex;
+		.goto__container {
+			&:first-child {
+				margin-left: 64px;
+			}
+			width: 64px;
+			.goto__btn {
+				border: none;
+				width: $goto_width;
+				height: $goto_height;
+				border-radius: 5px 5px 100% 100%;
+				background: grey;
+				transform: translateX(-($goto_width/2));
+				margin-bottom: 3px;
+				&--active {
+					background: aqua;
+				}
+				&:hover {
+					filter: brightness(120%);
+				}
+				&:active {
+					filter: brightness(140%);
+				}
 			}
 		}
 	}
