@@ -17,6 +17,7 @@
 	let current_row = -1;
 	let playing: boolean;
 	let looping: boolean;
+	let smooth = true;
 
 	let interval: NodeJS.Timeout;
 
@@ -41,6 +42,7 @@
 
 	let last_time = 0;
 	let i = 0;
+	let last_notes = [];
 	function loop() {
 		if (playing) {
 			let target = 0.3;
@@ -62,9 +64,22 @@
 						next.push(note.note);
 					}
 				});
-				synth.triggerAttackRelease(next, 0.2);
+				if (smooth) {
+					synth.triggerRelease(last_notes);
+					synth.triggerAttack(next);
+				} else {
+					synth.triggerAttackRelease(next, 0.2);
+				}
+
+				last_notes = next;
 				last_time = Date.now();
 				i += 1;
+			}
+		} else {
+			if (synth) {
+				if (synth.activeVoices) {
+					synth.triggerRelease(last_notes);
+				}
 			}
 		}
 	}
