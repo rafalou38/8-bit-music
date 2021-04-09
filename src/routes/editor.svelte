@@ -41,25 +41,22 @@
 	});
 
 	let last_time = 0;
-	let i = 0;
 	let last_notes = [];
 	function loop() {
 		if (playing) {
 			let target = 0.3;
 
-			if (i >= keys_count) {
+			if (current_row + 1 >= keys_count) {
 				if (!looping) {
 					playing = false;
-					current_row = -1;
 				}
-				i = 0;
+				current_row = -1;
 			}
 
 			if ((Date.now() - last_time) / 1000 >= target) {
 				let next = [];
-				current_row = i % keys_count;
 				notes.forEach((note, i) => {
-					let key = note.keys[current_row].active;
+					let key = note.keys[current_row + 1].active;
 					if (key) {
 						next.push(note.note);
 					}
@@ -73,7 +70,7 @@
 
 				last_notes = next;
 				last_time = Date.now();
-				i += 1;
+				current_row += 1;
 			}
 		} else {
 			if (synth) {
@@ -90,7 +87,7 @@
 	<ToolBar bind:this={EToolBar} bind:looping bind:playing />
 	<input type="checkbox" bind:checked={multiple_alowed} />
 	<pre>{keys_count}</pre>
-	<Board bind:notes bind:keys_count {multiple_alowed} {current_row} />
+	<Board bind:notes bind:keys_count {multiple_alowed} bind:current_row />
 </div>
 
 <style lang="scss">
