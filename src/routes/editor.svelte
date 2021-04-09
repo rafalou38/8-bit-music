@@ -69,28 +69,10 @@
 		}
 	}
 	interval = setInterval(loop, 100);
-	async function play() {
-		// debugger;
-		// if (playing) {
-		// 	i = 0;
-		// 	last_time = 0;
-		// }
-	}
-
-	function handleAction(action: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') {
-		switch (action) {
-			case 'play':
-				play();
-				break;
-
-			default:
-				break;
-		}
-	}
 </script>
 
 <div class="wrapper">
-	<ToolBar onAction={handleAction} bind:this={EToolBar} bind:looping bind:playing />
+	<ToolBar bind:this={EToolBar} bind:looping bind:playing />
 	<input type="checkbox" bind:checked={multiple_alowed} />
 	<pre>{keys_count}</pre>
 	<Board bind:notes bind:keys_count {multiple_alowed} {current_row} />

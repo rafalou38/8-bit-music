@@ -4,20 +4,22 @@
 	export let playing = false;
 	export let looping = false;
 
-	export let onAction: (action: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') => void;
+	export let onAction:
+		| ((action: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') => void)
+		| undefined;
 </script>
 
 <div class="wrapper">
-	<button on:click={() => onAction('add')}
+	<button on:click={() => onAction?.('add')}
 		><span class="iconify" data-icon="mdi:table-column-plus-after" data-inline="false" /></button
 	>
-	<button on:click={() => onAction('delete')}
+	<button on:click={() => onAction?.('delete')}
 		><span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" /></button
 	>
-	<button on:click={() => onAction('settings')}
+	<button on:click={() => onAction?.('settings')}
 		><span class="iconify" data-icon="mdi:cog" data-inline="false" /></button
 	>
-	<button on:click={() => onAction('clock')}
+	<button on:click={() => onAction?.('clock')}
 		><span class="iconify" data-icon="mdi:clock-time-four-outline" data-inline="false" /></button
 	>
 	<span class="divider" />
