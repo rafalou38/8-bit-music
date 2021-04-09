@@ -36,6 +36,30 @@
 			EPlayer?.pause();
 		}
 	}
+	function handleShortcut(event: KeyboardEvent & { currentTarget: EventTarget & HTMLElement }) {
+		if (event.key === 'ArrowRight') {
+			EPlayer?.pause();
+			key_progess = 0;
+			current_row++;
+			EPlayer?.play();
+		} else if (event.key === 'ArrowLeft') {
+			EPlayer?.pause();
+			key_progess = 0;
+			current_row--;
+			EPlayer?.play();
+		} else if (event.key === ' ') {
+			if (playing) {
+				playing = false;
+				EPlayer?.pause();
+			} else {
+				playing = true;
+				EPlayer?.play();
+			}
+		} else {
+			console.log(event.key);
+		}
+		current_row = Math.min(Math.max(current_row, -1), keys_count);
+	}
 </script>
 
 <Player
@@ -48,6 +72,8 @@
 	{smooth}
 	{notes}
 />
+
+<svelte:body on:keydown={handleShortcut} />
 
 <div class="wrapper">
 	<ToolBar bind:this={EToolBar} bind:looping bind:playing onAction={handleAction} />
