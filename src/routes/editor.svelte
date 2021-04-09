@@ -46,12 +46,16 @@
 	function loop() {
 		if (playing) {
 			let target = 1;
+			if (last_time === undefined) {
+				current_row -= 1;
+			}
 			current_row = Math.max(current_row, 0);
 
 			let elapsed_seconds = (Date.now() - last_time) / 1000;
 			key_progess = Math.min(Math.max((elapsed_seconds / target) * 100, 0), 100);
 			if (elapsed_seconds >= target || last_time === undefined) {
-				if (current_row >= keys_count) {
+				current_row += 1;
+				if (current_row > keys_count) {
 					if (!looping) {
 						playing = false;
 					}
@@ -74,10 +78,11 @@
 
 				last_notes = next;
 				last_time = Date.now();
-				current_row += 1;
+
 				key_progess = 0;
 			}
 		} else {
+			last_time = undefined;
 			if (synth) {
 				if (synth.activeVoices) {
 					synth.triggerRelease(last_notes);
@@ -100,8 +105,9 @@
 		bind:key_progess
 		setProgress={(i) => {
 			key_progess = 0;
-			current_row = i;
+			current_row = i + 1;
 			last_time = undefined;
+			playing = true;
 		}}
 	/>
 </div>
