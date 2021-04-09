@@ -55,7 +55,7 @@
 			<div class="goto__container">
 				<button
 					class="goto__btn"
-					class:goto__btn--active={current_row - 1 == ky}
+					class:goto__btn--active={current_row == ky}
 					on:click={() => setProgress(ky)}
 				/>
 			</div>
@@ -76,7 +76,7 @@
 					>{#each note.keys as key, ky (key.id)}
 						<td
 							class="board__cell board__cell--key"
-							class:board__cell--key--active={current_row - 1 == ky}
+							class:board__cell--key--active={current_row == ky}
 							style={key.active ? `background: ${note.color};` : ''}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
 							out:fly={{ x: -20, duration: 100, delay: ky * 5 }}

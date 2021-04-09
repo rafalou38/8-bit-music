@@ -1,26 +1,17 @@
 <script lang="ts">
 	import Board from '$lib/editor/board.svelte';
 	import ToolBar from '$lib/editor/toolBar.svelte';
+	import Player from '$lib/editor/player.svelte';
 	import { map, uniqueID } from '$lib/helpers';
-	import { onDestroy, onMount } from 'svelte';
-
-	import * as Tone from 'tone';
-	let synth: Tone.PolySynth<Tone.Synth<Tone.SynthOptions>>;
-	onMount(() => {
-		if (!synth) {
-			synth = new Tone.PolySynth().toDestination();
-		}
-	});
 
 	let keys_count = 5;
 	let multiple_alowed = false;
 	let current_row = -1;
 	let key_progess = 0;
+
 	let playing: boolean;
 	let looping: boolean;
 	let smooth = true;
-
-	let interval: NodeJS.Timeout;
 
 	let rawNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
 	let notes: INote[] = [];
@@ -36,65 +27,30 @@
 	}
 
 	let EToolBar: ToolBar;
+	let EPlayer: Player;
 
-	onDestroy(() => {
-		playing = false;
-	});
-
-	let last_time: number | undefined;
-	let last_notes = [];
-	function loop() {
-		if (playing) {
-			let target = 1;
-			if (last_time === undefined) {
-				current_row -= 1;
-			}
-			current_row = Math.max(current_row, 0);
-
-			let elapsed_seconds = (Date.now() - last_time) / 1000;
-			key_progess = Math.min(Math.max((elapsed_seconds / target) * 100, 0), 100);
-			if (elapsed_seconds >= target || last_time === undefined) {
-				current_row += 1;
-				if (current_row > keys_count) {
-					if (!looping) {
-						playing = false;
-					}
-					current_row = -1;
-					return;
-				}
-				let next = [];
-				notes.forEach((note, i) => {
-					let key = note.keys[Math.min(current_row, keys_count - 1)].active;
-					if (key) {
-						next.push(note.note);
-					}
-				});
-				if (smooth) {
-					synth.triggerRelease(last_notes);
-					synth.triggerAttack(next);
-				} else {
-					synth.triggerAttackRelease(next, target);
-				}
-
-				last_notes = next;
-				last_time = Date.now();
-
-				key_progess = 0;
-			}
-		} else {
-			last_time = undefined;
-			if (synth) {
-				if (synth.activeVoices) {
-					synth.triggerRelease(last_notes);
-				}
-			}
+	function handleAction(actionType: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') {
+		if (actionType == 'play') {
+			EPlayer?.play();
+		} else if (actionType == 'pause') {
+			EPlayer?.pause();
 		}
 	}
-	interval = setInterval(loop, 10);
 </script>
 
+<Player
+	bind:this={EPlayer}
+	bind:current_row
+	bind:key_progess
+	bind:playing
+	{keys_count}
+	{looping}
+	{smooth}
+	{notes}
+/>
+
 <div class="wrapper">
-	<ToolBar bind:this={EToolBar} bind:looping bind:playing />
+	<ToolBar bind:this={EToolBar} bind:looping bind:playing onAction={handleAction} />
 	<input type="checkbox" bind:checked={multiple_alowed} />
 	<pre>{keys_count}</pre>
 	<Board
@@ -103,12 +59,7 @@
 		{multiple_alowed}
 		bind:current_row
 		bind:key_progess
-		setProgress={(i) => {
-			key_progess = 0;
-			current_row = i + 1;
-			last_time = undefined;
-			playing = true;
-		}}
+		setProgress={EPlayer?.setProgress}
 	/>
 </div>
 
