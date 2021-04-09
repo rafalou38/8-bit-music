@@ -29,8 +29,6 @@
 	});
 
 	export function setProgress(index: number) {
-		console.log('set progress', index);
-
 		current_row = index - 1;
 		key_progess = 0;
 		last_time = -1;
