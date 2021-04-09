@@ -8,6 +8,7 @@
 	export let keys_count = 5;
 	export let multiple_alowed = false;
 	export let notes: INote[] = [];
+	export let current_row = -1;
 	onMount(() => {
 		synth = new Tone.Synth().toDestination();
 	});
@@ -62,6 +63,7 @@
 					>{#each note.keys as key, ky (key.id)}
 						<td
 							class="board__cell board__cell--key"
+							class:board__cell--key--active={current_row == ky}
 							style={key.active ? `background: ${note.color};` : ''}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
 							out:fly={{ x: -20, duration: 100, delay: ky * 5 }}
@@ -150,6 +152,10 @@
 			}
 			&--key {
 				background-color: #4f5b62;
+				&--active {
+					border-left: 3px solid blue;
+					border-right: 3px solid blue;
+				}
 			}
 			&--round {
 				background-color: #263238;
