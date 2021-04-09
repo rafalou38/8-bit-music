@@ -9,6 +9,8 @@
 	export let multiple_alowed = false;
 	export let notes: INote[] = [];
 	export let current_row = -1;
+	export let key_progess = 0;
+	export let setProgress: (i: number) => void;
 	onMount(() => {
 		synth = new Tone.Synth().toDestination();
 	});
@@ -47,7 +49,7 @@
 </script>
 
 <svelte:body on:mouseup={() => (sliding = false)} />
-<div class="wrapper">
+<div class="wrapper" style={`--key-progress: ${key_progess}%`}>
 	<table class="board" cellspacing="0">
 		<tbody on:mousedown={() => (sliding = true)}>
 			{#each notes as note, ny (note.id)}
@@ -63,7 +65,7 @@
 					>{#each note.keys as key, ky (key.id)}
 						<td
 							class="board__cell board__cell--key"
-							class:board__cell--key--active={current_row == ky}
+							class:board__cell--key--active={current_row - 1 == ky}
 							style={key.active ? `background: ${note.color};` : ''}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
 							out:fly={{ x: -20, duration: 100, delay: ky * 5 }}
@@ -78,6 +80,16 @@
 						/>{/each}
 				</tr>
 			{/each}
+			<tr>
+				<td class="board__cell board__cell--key" />
+				{#each notes[0].keys as key, ky (key.id)}
+					<td
+						class="board__cell board__cell--key"
+						on:mousedown={() => {
+							setProgress(ky);
+						}}>{ky}</td
+					>{/each}
+			</tr>
 		</tbody>
 
 		<div class="board__cell board__cell--add-keys">
@@ -116,6 +128,7 @@
 	.board {
 		display: flex;
 		height: max-content;
+
 		tbody {
 			width: min-content;
 		}
@@ -152,9 +165,13 @@
 			}
 			&--key {
 				background-color: #4f5b62;
-				&--active {
-					border-left: 3px solid blue;
-					border-right: 3px solid blue;
+				&--active::after {
+					content: '';
+					height: 100%;
+					width: 5px;
+					display: block;
+					background: aqua;
+					margin-left: var(--key-progress);
 				}
 			}
 			&--round {

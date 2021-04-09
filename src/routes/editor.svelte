@@ -15,6 +15,7 @@
 	let keys_count = 5;
 	let multiple_alowed = false;
 	let current_row = -1;
+	let key_progess = 0;
 	let playing: boolean;
 	let looping: boolean;
 	let smooth = true;
@@ -40,23 +41,26 @@
 		playing = false;
 	});
 
-	let last_time = 0;
+	let last_time: number | undefined;
 	let last_notes = [];
 	function loop() {
 		if (playing) {
-			let target = 0.3;
+			let target = 1;
+			current_row = Math.max(current_row, 0);
 
-			if (current_row + 1 >= keys_count) {
-				if (!looping) {
-					playing = false;
+			let elapsed_seconds = (Date.now() - last_time) / 1000;
+			key_progess = Math.min(Math.max((elapsed_seconds / target) * 100, 0), 100);
+			if (elapsed_seconds >= target || last_time === undefined) {
+				if (current_row >= keys_count) {
+					if (!looping) {
+						playing = false;
+					}
+					current_row = -1;
+					return;
 				}
-				current_row = -1;
-			}
-
-			if ((Date.now() - last_time) / 1000 >= target) {
 				let next = [];
 				notes.forEach((note, i) => {
-					let key = note.keys[current_row + 1].active;
+					let key = note.keys[Math.min(current_row, keys_count - 1)].active;
 					if (key) {
 						next.push(note.note);
 					}
@@ -65,12 +69,13 @@
 					synth.triggerRelease(last_notes);
 					synth.triggerAttack(next);
 				} else {
-					synth.triggerAttackRelease(next, 0.2);
+					synth.triggerAttackRelease(next, target);
 				}
 
 				last_notes = next;
 				last_time = Date.now();
 				current_row += 1;
+				key_progess = 0;
 			}
 		} else {
 			if (synth) {
@@ -80,14 +85,25 @@
 			}
 		}
 	}
-	interval = setInterval(loop, 100);
+	interval = setInterval(loop, 10);
 </script>
 
 <div class="wrapper">
 	<ToolBar bind:this={EToolBar} bind:looping bind:playing />
 	<input type="checkbox" bind:checked={multiple_alowed} />
 	<pre>{keys_count}</pre>
-	<Board bind:notes bind:keys_count {multiple_alowed} bind:current_row />
+	<Board
+		bind:notes
+		bind:keys_count
+		{multiple_alowed}
+		bind:current_row
+		bind:key_progess
+		setProgress={(i) => {
+			key_progess = 0;
+			current_row = i;
+			last_time = undefined;
+		}}
+	/>
 </div>
 
 <style lang="scss">
