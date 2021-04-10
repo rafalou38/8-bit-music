@@ -29,11 +29,10 @@
 	});
 
 	export function setProgress(index: number) {
-		current_row = index - 1;
+		pause();
 		key_progess = 0;
-		last_time = -1;
-		playing = true;
-		paused = false;
+		current_row = index;
+		play();
 	}
 	export function play() {
 		playing = true;
@@ -50,10 +49,9 @@
 			let elapsed_seconds = (Date.now() - last_time) / 1000;
 			key_progess = Math.min(Math.max((elapsed_seconds / target) * 100, 0), 100);
 			if (elapsed_seconds >= target || last_time === undefined || paused) {
-				if (paused) {
-					current_row -= 1;
+				if (!paused) {
+					current_row += 1;
 				}
-				current_row += 1;
 
 				if (current_row >= keys_count) {
 					if (!looping) {
