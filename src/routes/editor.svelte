@@ -11,6 +11,7 @@
 
 	let playing: boolean;
 	let looping: boolean;
+	let loop_positions: [number, number];
 	let smooth = true;
 
 	let rawNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
@@ -67,6 +68,7 @@
 	bind:current_row
 	bind:key_progess
 	bind:playing
+	{loop_positions}
 	{keys_count}
 	{looping}
 	{smooth}
@@ -80,6 +82,8 @@
 	<input type="checkbox" bind:checked={multiple_alowed} />
 	<pre>{keys_count}</pre>
 	<Board
+		bind:loop={loop_positions}
+		bind:looping
 		bind:notes
 		bind:keys_count
 		{multiple_alowed}

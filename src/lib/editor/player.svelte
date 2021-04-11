@@ -17,7 +17,7 @@
 	export let playing: boolean;
 	export let looping: boolean;
 	export let smooth = true;
-
+	export let loop_positions: [number, number];
 	export let notes: INote[] = [];
 
 	let last_time: number | undefined;
@@ -53,12 +53,19 @@
 					current_row += 1;
 				}
 
-				if (current_row >= keys_count) {
+				if (
+					current_row >= keys_count ||
+					(looping && loop_positions[1] && current_row >= loop_positions[1] + 1)
+				) {
 					if (!looping) {
 						playing = false;
 						synth?.triggerRelease(last_notes);
+						current_row = -1;
+					} else {
+						paused = true;
+						key_progess = 0;
+						current_row = loop_positions[0] || 0;
 					}
-					current_row = -1;
 					return;
 				}
 				let next = [];
