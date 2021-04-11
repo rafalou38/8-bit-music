@@ -113,6 +113,7 @@
 		padding: 5px;
 		height: 40px;
 		align-items: center;
+		width: 100%;
 	}
 	.divider {
 		flex-grow: 1;

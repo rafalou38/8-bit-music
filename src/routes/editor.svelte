@@ -77,8 +77,8 @@
 
 <svelte:body on:keydown={handleShortcut} />
 
+<ToolBar bind:this={EToolBar} bind:looping bind:playing onAction={handleAction} />
 <div class="wrapper">
-	<ToolBar bind:this={EToolBar} bind:looping bind:playing onAction={handleAction} />
 	<Board
 		bind:loop={loop_positions}
 		bind:looping
@@ -94,7 +94,8 @@
 <style lang="scss">
 	.wrapper {
 		width: 100%;
-		height: 100%;
+		height: calc(100% - 50px);
+		margin-top: 50px;
 		overflow: auto;
 		position: absolute;
 	}

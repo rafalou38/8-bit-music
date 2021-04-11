@@ -189,6 +189,10 @@
 </div>
 
 <style lang="scss">
+	.wrapper {
+		margin: 20px;
+		width: max-content;
+	}
 	.board {
 		display: flex;
 		height: max-content;
