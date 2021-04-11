@@ -79,8 +79,6 @@
 
 <div class="wrapper">
 	<ToolBar bind:this={EToolBar} bind:looping bind:playing onAction={handleAction} />
-	<input type="checkbox" bind:checked={multiple_alowed} />
-	<pre>{keys_count}</pre>
 	<Board
 		bind:loop={loop_positions}
 		bind:looping

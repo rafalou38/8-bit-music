@@ -107,8 +107,6 @@
 </script>
 
 <svelte:body on:mouseup={() => (sliding = false)} />
-<input type="number" bind:value={loop[0]} />
-<input type="number" bind:value={loop[1]} />
 <div class="wrapper" style={`--key-progress: ${key_progess}%`}>
 	<div class="goto__container">
 		{#key looping}
