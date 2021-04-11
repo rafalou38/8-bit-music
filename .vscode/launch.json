@@ -10,7 +10,8 @@
 			"request": "launch",
 			"reAttach": true,
 			"url": "http://localhost:3000/",
-			"webRoot": "${workspaceFolder}"
+			"webRoot": "${workspaceFolder}",
+			"firefoxExecutable": "C:\\Program Files\\Firefox Nightly\\firefox.exe"
 		},
 		{
 			"name": "Attach",
