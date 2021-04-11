@@ -11,6 +11,18 @@
 	export let current_row = -1;
 	export let key_progess = 0;
 	export let setProgress: (i: number) => void;
+
+	export let loop: [number | null, number | null] = [1, 3];
+	let curentLoopI = 0;
+	function loopAction(e: HTMLElement, i: number) {
+		if (loop[curentLoopI] == i) {
+			curentLoopI = (curentLoopI + 1) % 2;
+			e.classList.add('goto__btn--loop');
+		} else {
+			e.classList.remove('goto__btn--loop');
+		}
+	}
+
 	onMount(() => {
 		synth = new Tone.Synth().toDestination();
 	});
@@ -49,17 +61,22 @@
 </script>
 
 <svelte:body on:mouseup={() => (sliding = false)} />
+<input type="number" bind:value={loop[0]} />
+<input type="number" bind:value={loop[1]} />
 <div class="wrapper" style={`--key-progress: ${key_progess}%`}>
 	<div class="goto__container">
-		{#each notes[0].keys as key, ky (key.id)}
-			<div class="goto__container">
-				<button
-					class="goto__btn"
-					class:goto__btn--active={current_row == ky}
-					on:click={() => setProgress(ky)}
-				/>
-			</div>
-		{/each}
+		{#key loop}
+			{#each notes[0].keys as key, ky (key.id)}
+				<div class="goto__container">
+					<button
+						class="goto__btn goto__btn--loop"
+						class:goto__btn--active={current_row == ky}
+						use:loopAction={ky}
+						on:click={() => setProgress(ky)}
+					/>
+				</div>
+			{/each}
+		{/key}
 	</div>
 	<table class="board" cellspacing="0" cellpadding="0">
 		<tbody on:mousedown={() => (sliding = true)}>
@@ -221,6 +238,9 @@
 				margin-bottom: 3px;
 				&--active {
 					background: aqua;
+				}
+				&--loop {
+					background: Orchid;
 				}
 				&:hover {
 					filter: brightness(120%);
