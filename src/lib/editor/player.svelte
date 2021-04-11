@@ -19,6 +19,7 @@
 	export let smooth = true;
 	export let loop_positions: [number, number];
 	export let notes: INote[] = [];
+	export let speed = 1;
 
 	let last_time: number | undefined;
 	let last_notes = [];
@@ -44,7 +45,7 @@
 	}
 	function loop() {
 		if (playing) {
-			let target = 1;
+			let target = 1 / speed;
 
 			let elapsed_seconds = (Date.now() - last_time) / 1000;
 			key_progess = Math.min(Math.max((elapsed_seconds / target) * 100, 0), 100);

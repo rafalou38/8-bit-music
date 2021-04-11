@@ -13,6 +13,7 @@
 	let looping: boolean;
 	let loop_positions: [number, number];
 	let smooth = true;
+	let speed = 1;
 
 	let rawNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
 	let notes: INote[] = [];
@@ -35,6 +36,8 @@
 			EPlayer?.play();
 		} else if (actionType == 'pause') {
 			EPlayer?.pause();
+		} else if (actionType == 'clock') {
+			speed = parseFloat(prompt('new speed', speed.toString()));
 		}
 	}
 	function handleShortcut(event: KeyboardEvent & { currentTarget: EventTarget & HTMLElement }) {
@@ -68,6 +71,7 @@
 	bind:current_row
 	bind:key_progess
 	bind:playing
+	{speed}
 	{loop_positions}
 	{keys_count}
 	{looping}
