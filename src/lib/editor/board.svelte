@@ -58,6 +58,8 @@
 							newLoop[1] = i;
 							newLoop[0] = tmp;
 						}
+					} else {
+						newLoop[1] = i;
 					}
 				}
 			}
