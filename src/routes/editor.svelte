@@ -59,6 +59,8 @@
 				playing = true;
 				EPlayer?.play();
 			}
+		} else if (event.key === '+') {
+			keys_count++;
 		} else {
 			console.log(event.key);
 		}
