@@ -124,8 +124,9 @@
 
 <style lang="scss">
 	.wrapper {
-		margin: 20px;
 		width: max-content;
+		padding: 20px;
+		padding-right: 60%;
 	}
 	.board {
 		display: flex;
