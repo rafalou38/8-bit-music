@@ -83,7 +83,7 @@
 
 <svelte:body on:keydown={handleShortcut} />
 
-<ToolBar bind:this={EToolBar} bind:looping bind:playing onAction={handleAction} />
+<ToolBar bind:this={EToolBar} bind:looping bind:playing bind:speed onAction={handleAction} />
 <div class="wrapper">
 	<Board
 		bind:loop={loop_positions}

@@ -3,11 +3,18 @@
 <script lang="ts">
 	export let playing = false;
 	export let looping = false;
-
+	export let speed = 1;
 	export let onAction:
 		| ((action: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') => void)
 		| undefined;
+	let inteval: NodeJS.Timeout;
+	function normalize(i: number) {
+		return Math.max(0.1, Math.round(i * 100) / 100);
+	}
+	let dropdown_visible = false;
 </script>
+
+<svelte:body on:touchstart />
 
 <div class="wrapper">
 	<button on:click={() => onAction?.('add')}
@@ -19,9 +26,24 @@
 	<button on:click={() => onAction?.('settings')}
 		><span class="iconify" data-icon="mdi:cog" data-inline="false" /></button
 	>
-	<button on:click={() => onAction?.('clock')}
-		><span class="iconify" data-icon="mdi:clock-time-four-outline" data-inline="false" /></button
-	>
+	<div class="dropdown__container">
+		<button on:click={() => (dropdown_visible = !dropdown_visible)}
+			><span class="iconify" data-icon="mdi:clock-time-four-outline" data-inline="false" /></button
+		>
+		<div class="dropdown__body" class:dropdown_visible>
+			<button
+				on:click={() => {
+					speed = normalize(speed - 0.2);
+				}}>-</button
+			>
+			<p>{speed}x</p>
+			<button
+				on:click={() => {
+					speed = normalize(speed + 0.2);
+				}}>+</button
+			>
+		</div>
+	</div>
 	<span class="divider" />
 	<button
 		class:active={playing}
@@ -106,6 +128,43 @@
 
 <style lang="scss">
 	@import '../../theme.scss';
+	$arrow-size: 10px;
+	.dropdown__container {
+		display: flex;
+		justify-content: center;
+	}
+	.dropdown__body {
+		display: none;
+	}
+	.dropdown__body.dropdown_visible {
+		width: min-content;
+		margin-top: 30px + $arrow-size;
+		height: 50px;
+		z-index: 100;
+		position: absolute;
+		background: #fff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 10px;
+		&::before {
+			content: '';
+			border-left: $arrow-size solid transparent;
+			border-right: $arrow-size solid transparent;
+			border-bottom: $arrow-size solid #fff;
+			position: absolute;
+			top: -$arrow-size;
+		}
+		& button {
+			cursor: pointer;
+		}
+		& button:hover {
+			color: #666a6b;
+		}
+		& button:active {
+			color: #474a4b;
+		}
+	}
 	.wrapper {
 		background: darken($color: $primary, $amount: 5%);
 
