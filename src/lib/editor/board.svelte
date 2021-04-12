@@ -25,7 +25,8 @@
 		return { duration: 1, id: uniqueID(), active: false };
 	}
 
-	function toggle_key(ny: number, ky: number) {
+	async function toggle_key(ny: number, ky: number) {
+		await Tone.start();
 		let newNotes = notes;
 		const key = notes[ny].keys[ky];
 		if (!multiple_alowed) {

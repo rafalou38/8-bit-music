@@ -14,8 +14,8 @@
 	export let keys_count = 5;
 	export let current_row = -1;
 	export let key_progess = 0;
-	export let playing: boolean;
-	export let looping: boolean;
+	export let playing: boolean = false;
+	export let looping: boolean = false;
 	export let smooth = true;
 	export let loop_positions: [number, number];
 	export let notes: INote[] = [];
@@ -27,6 +27,8 @@
 
 	onDestroy(() => {
 		playing = false;
+		synth?.triggerRelease(last_notes);
+		synth?.dispose();
 	});
 
 	export function setProgress(index: number) {
