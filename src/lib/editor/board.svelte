@@ -66,7 +66,6 @@
 						class="board__cell board__cell--note"
 						style="color: {note.color}"
 						in:fly={{ x: -20, duration: 100 }}
-						out:fly={{ x: -20, duration: 100 }}
 						on:click={() => {
 							notes = notes.filter((e) => e.id != note.id);
 						}}><div class="board__cell__label">{note.label}</div></th
@@ -76,7 +75,6 @@
 							class:board__cell--key--active={current_row == ky}
 							style={key.active ? `background: ${note.color};` : ''}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
-							out:fly={{ x: -20, duration: 100, delay: ky * 5 }}
 							on:mouseenter={() => {
 								if (sliding) {
 									toggle_key(ny, ky);
