@@ -1,0 +1,8 @@
+@mixin ez-btn {
+	&:hover {
+		filter: brightness(120%);
+	}
+	&:active {
+		filter: brightness(140%);
+	}
+}
