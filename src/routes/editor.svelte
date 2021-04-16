@@ -3,8 +3,8 @@
 	import ToolBar from '$lib/editor/toolBar.svelte';
 	import Player from '$lib/editor/player.svelte';
 	import { map, uniqueID } from '$lib/helpers';
+	import { keys_count, notes } from '$lib/stores';
 
-	let keys_count = 5;
 	let multiple_alowed = false;
 	let current_row = -1;
 	let key_progess = 0;
@@ -16,17 +16,18 @@
 	let speed = 1;
 
 	let rawNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
-	let notes: INote[] = [];
-	for (let i = 0; i < rawNotes.length; i++) {
-		const note = rawNotes[i];
-		notes.push({
-			label: note,
-			note: note,
-			id: uniqueID(),
-			color: `hsl(${map(i, 0, rawNotes.length, 0, 360)}, 100%, 71%)`,
-			keys: []
-		});
-	}
+	notes.set(
+		rawNotes.reduce((acc, note, i) => {
+			acc.push({
+				label: note,
+				note: note,
+				id: uniqueID(),
+				color: `hsl(${map(i, 0, rawNotes.length, 0, 360)}, 100%, 71%)`,
+				keys: []
+			});
+			return acc;
+		}, [])
+	);
 
 	let EToolBar: ToolBar;
 	let EPlayer: Player;
@@ -60,11 +61,9 @@
 				EPlayer?.play();
 			}
 		} else if (event.key === '+') {
-			keys_count++;
-		} else {
-			console.log(event.key);
+			keys_count.update((old) => old + 1);
 		}
-		current_row = Math.min(Math.max(current_row, -1), keys_count);
+		current_row = Math.min(Math.max(current_row, -1), $keys_count);
 	}
 </script>
 
@@ -75,10 +74,8 @@
 	bind:playing
 	{speed}
 	{loop_positions}
-	{keys_count}
 	{looping}
 	{smooth}
-	{notes}
 />
 
 <svelte:body on:keydown={handleShortcut} />
@@ -88,8 +85,6 @@
 	<Board
 		bind:loop={loop_positions}
 		bind:looping
-		bind:notes
-		bind:keys_count
 		{multiple_alowed}
 		bind:current_row
 		bind:key_progess

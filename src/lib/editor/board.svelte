@@ -5,11 +5,10 @@
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import * as Tone from 'tone';
+	import { keys_count, notes } from '$lib/stores';
 	let synth: Tone.Synth<Tone.SynthOptions>;
 	let sliding = false;
-	export let keys_count = 5;
 	export let multiple_alowed = false;
-	export let notes: INote[] = [];
 	export let current_row = -1;
 	export let key_progess = 0;
 
@@ -21,53 +20,39 @@
 		synth = new Tone.Synth().toDestination();
 	});
 
-	function default_key() {
-		return { duration: 1, id: uniqueID(), active: false };
-	}
-
 	async function toggle_key(ny: number, ky: number) {
 		await Tone.start();
-		let newNotes = notes;
-		const key = notes[ny].keys[ky];
-		if (!multiple_alowed) {
-			for (let i = 0; i < newNotes.length; i++) {
-				if (i !== ny) {
-					newNotes[i].keys[ky].active = false;
+		notes.update((oldNotes) => {
+			const key = oldNotes[ny].keys[ky];
+			if (!multiple_alowed) {
+				for (let i = 0; i < oldNotes.length; i++) {
+					if (i !== ny) {
+						oldNotes[i].keys[ky].active = false;
+					}
 				}
 			}
-		}
-		key.active = !key.active;
-		if (key.active) {
-			synth.triggerAttackRelease(notes[ny].note, 0.1);
-		}
-		notes = newNotes;
-	}
-
-	$: {
-		for (let i = 0; i < notes.length; i++) {
-			const newNote = { ...notes[i] };
-			while (newNote.keys.length !== keys_count) {
-				if (newNote.keys.length < keys_count) newNote.keys.push(default_key());
-				if (newNote.keys.length > keys_count) newNote.keys.pop();
+			key.active = !key.active;
+			if (key.active) {
+				synth.triggerAttackRelease(oldNotes[ny].note, 0.1);
 			}
-			notes[i] = newNote;
-		}
+			return oldNotes;
+		});
 	}
 </script>
 
 <svelte:body on:mouseup={() => (sliding = false)} />
 <div class="wrapper" style={`--key-progress: ${key_progess}%`}>
-	<Labels bind:loop {looping} {notes} {current_row} {setProgress} />
+	<Labels bind:loop {looping} {current_row} {setProgress} />
 	<table class="board" cellspacing="0" cellpadding="0">
 		<tbody on:mousedown={() => (sliding = true)}>
-			{#each notes as note, ny (note.id)}
+			{#each $notes as note, ny (note.id)}
 				<tr>
 					<th
 						class="board__cell board__cell--note"
 						style="color: {note.color}"
 						in:fly={{ x: -20, duration: 100 }}
 						on:click={() => {
-							notes = notes.filter((e) => e.id != note.id);
+							notes.update((notes_) => notes_.filter((e) => e.id != note.id));
 						}}><div class="board__cell__label">{note.label}</div></th
 					>{#each note.keys as key, ky (key.id)}
 						<td
@@ -92,7 +77,7 @@
 			<div
 				class="board__cell__label"
 				on:click={() => {
-					keys_count = keys_count + 1;
+					keys_count.update((keys_count_) => keys_count_ + 1);
 				}}
 			>
 				+
@@ -100,23 +85,7 @@
 		</div>
 	</table>
 	<div class="board__cell board__cell--round">
-		<div
-			class="board__cell__label"
-			on:click={() => {
-				notes = [
-					...notes,
-					{
-						label: 're',
-						note: 750,
-						id: uniqueID(),
-						color: '#ff046a',
-						keys: []
-					}
-				];
-			}}
-		>
-			+
-		</div>
+		<div class="board__cell__label">+</div>
 	</div>
 </div>
 

@@ -1,6 +1,8 @@
 <svelte:options accessors={true} />
 
 <script lang="ts">
+	import { keys_count, notes } from '$lib/stores';
+
 	import { onDestroy, onMount } from 'svelte';
 
 	import * as Tone from 'tone';
@@ -11,14 +13,12 @@
 		}
 	});
 
-	export let keys_count = 5;
 	export let current_row = -1;
 	export let key_progess = 0;
 	export let playing: boolean = false;
 	export let looping: boolean = false;
 	export let smooth = true;
 	export let loop_positions: [number, number];
-	export let notes: INote[] = [];
 	export let speed = 1;
 
 	let last_time: number | undefined;
@@ -57,7 +57,7 @@
 				}
 
 				if (
-					current_row >= keys_count ||
+					current_row >= $keys_count ||
 					(looping && loop_positions[1] && current_row >= loop_positions[1] + 1)
 				) {
 					if (!looping) {
@@ -72,7 +72,7 @@
 					return;
 				}
 				let next = [];
-				notes.forEach((note, i) => {
+				$notes.forEach((note, i) => {
 					let key = note.keys[current_row].active;
 					if (key) {
 						next.push(note.note);

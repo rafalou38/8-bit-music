@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { notes } from '$lib/stores';
+
 	export let loop: [number | null, number | null] = [1, 3];
 	export let looping = false;
 
-	export let notes: INote[] = [];
 	export let current_row = -1;
 
 	export let setProgress: (i: number) => void;
@@ -67,7 +68,7 @@
 <div class="goto__container">
 	{#key looping}
 		{#key loop}
-			{#each notes[0].keys as key, ky (key.id)}
+			{#each $notes[0].keys as key, ky (key.id)}
 				<div class="goto__container">
 					<button
 						class="goto__btn goto__btn--loop"
