@@ -3,8 +3,8 @@
 	import { decode } from '$lib/serialization';
 
 	export const load: Load = ({ page }) => {
-		const encoded_notes: string | undefined = page.query.get('notes');
-		if (encoded_notes === undefined) return {};
+		const encoded_notes: string | null = page.query.get('notes');
+		if (encoded_notes === null) return {};
 
 		const decoded = decode(encoded_notes.replace(/\s+/g, '+'));
 		return { props: { decoded_notes: decoded.data } };
