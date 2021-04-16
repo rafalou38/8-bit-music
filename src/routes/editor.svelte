@@ -16,8 +16,10 @@
 	let speed = 1;
 
 	let rawNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
-	notes.set(
-		rawNotes.reduce((acc, note, i) => {
+	notes.update((notes_) => {
+		if (notes_.length !== 0) return notes_;
+
+		return rawNotes.reduce((acc, note, i) => {
 			acc.push({
 				label: note,
 				note: note,
@@ -26,8 +28,8 @@
 				keys: []
 			});
 			return acc;
-		}, [])
-	);
+		}, []);
+	});
 
 	let EToolBar: ToolBar;
 	let EPlayer: Player;
