@@ -1,3 +1,16 @@
+<script context="module" lang="ts">
+	import type { Load } from '@sveltejs/kit';
+	import { decode } from '$lib/serialization';
+
+	export const load: Load = ({ page }) => {
+		const encoded_notes: string | undefined = page.query.get('notes');
+		if (encoded_notes === undefined) return {};
+
+		const decoded = decode(encoded_notes.replace(/\s+/g, '+'));
+		return { props: { decoded_notes: decoded.data } };
+	};
+</script>
+
 <script lang="ts">
 	import Board from '$lib/editor/board.svelte';
 	import ToolBar from '$lib/editor/toolBar.svelte';
@@ -16,6 +29,14 @@
 	let speed = 1;
 
 	let rawNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
+
+	export let decoded_notes: INote[] | undefined;
+
+	if (decoded_notes) {
+		console.log(decoded_notes);
+
+		notes.set(decoded_notes);
+	}
 	notes.update((notes_) => {
 		if (notes_.length !== 0) return notes_;
 
