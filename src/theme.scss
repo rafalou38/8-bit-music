@@ -1,8 +1,16 @@
-$primary: #29434e;
-// $primary: #546e7a;
-$primary-light: #546e7a;
-$primary-dark: #29434e;
+$primary: DeepSkyBlue;
 
-$secondary: #42a5f4;
-$secondary-light: #80d6ff;
-$secondary-dark: #0077c1;
+$nav: $primary;
+
+$sidebar: white;
+$sidebar-icons: DarkGray;
+$sidebar-icons--hover: LightSkyBlue;
+$sidebar-icons--active: $primary;
+
+$toolbar: whitesmoke;
+$toolbar-icon: SlateGray;
+$toolbar-icon--hover: LightSlateGray;
+$toolbar-icon--active: DarkSlateGray;
+
+$editor-bg: GhostWhite;
+$editor-active: $primary;

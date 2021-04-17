@@ -90,6 +90,7 @@
 </div>
 
 <style lang="scss">
+	@use '../../theme.scss';
 	.wrapper {
 		width: max-content;
 		padding: 20px;
@@ -144,7 +145,7 @@
 					display: block;
 				}
 				&--active::after {
-					background: aqua;
+					background: theme.$editor-active;
 					margin-left: calc(var(--key-progress) - 2.5px);
 				}
 			}

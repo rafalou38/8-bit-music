@@ -127,7 +127,9 @@
 </div>
 
 <style lang="scss">
-	@import '../../theme.scss';
+	@use '../../theme.scss';
+	@use '../../mixins.scss';
+
 	$arrow-size: 10px;
 	.dropdown__container {
 		display: flex;
@@ -166,7 +168,10 @@
 		}
 	}
 	.wrapper {
-		background: darken($color: $primary, $amount: 5%);
+		@include mixins.elevation(4px, 0.14);
+		z-index: 1;
+
+		background: theme.$toolbar;
 
 		display: flex;
 		padding: 5px;
@@ -188,13 +193,12 @@
 		display: grid;
 		place-items: center;
 		text-decoration: none;
-		color: #b2babb;
-		&:hover,
-		&.active {
-			color: white;
+		color: theme.$toolbar-icon;
+		&:hover {
+			color: theme.$toolbar-icon--hover;
 		}
-		& + & {
-			border-left: 1px solid #263238;
+		&.active {
+			color: theme.$toolbar-icon--active;
 		}
 	}
 </style>

@@ -83,6 +83,7 @@
 </div>
 
 <style lang="scss">
+	@use "../../theme.scss";
 	$goto_width: 20px;
 	$goto_height: 20px;
 	.goto__container {
@@ -101,7 +102,7 @@
 				transform: translateX(-($goto_width/2));
 				margin-bottom: 3px;
 				&--active {
-					background: aqua;
+					background: theme.$editor-active;
 				}
 				&--loop {
 					background: Orchid;

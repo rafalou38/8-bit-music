@@ -38,9 +38,12 @@
 </nav>
 
 <style lang="scss">
-	@import '../theme.scss';
+	@use '../theme.scss';
+	@use '../mixins.scss';
 	.sidebar {
-		background: $primary-light;
+		background: theme.$sidebar;
+		@include mixins.elevation(8px, 0.2);
+		z-index: 2;
 		&__list {
 			padding: 0;
 			margin: 0;
@@ -54,7 +57,7 @@
 		}
 		&__link {
 			text-decoration: none;
-			color: #b2babb;
+			color: theme.$sidebar-icons;
 
 			width: 100%;
 			height: 100%;
@@ -63,9 +66,11 @@
 			place-items: center;
 
 			font-size: 200%;
-			&--active,
+			&--active {
+				color: theme.$sidebar-icons--active !important;
+			}
 			&:hover {
-				color: white;
+				color: theme.$sidebar-icons--hover;
 			}
 		}
 	}

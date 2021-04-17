@@ -6,3 +6,7 @@
 		filter: brightness(140%);
 	}
 }
+
+@mixin elevation($z: 4px, $o: 0.14) {
+	box-shadow: 0 3px $z 0 rgba(0, 0, 0, 0.14);
+}

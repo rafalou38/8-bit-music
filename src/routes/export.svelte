@@ -34,7 +34,6 @@
 
 	.wrapper {
 		flex-grow: 1;
-		color: white;
 		padding: 2em 5em;
 	}
 
@@ -59,7 +58,7 @@
 			padding: 0.5em 0.7em;
 			border-radius: 5px;
 			border: none;
-			background: lighten($color: theme.$primary-light, $amount: 20);
+			// background: lighten($color: theme.$primary-light, $amount: 20);
 		}
 	}
 	.btn {
@@ -71,7 +70,7 @@
 		display: block;
 		@include mixins.ez-btn;
 		&--secondary {
-			background: theme.$secondary;
+			// background: theme.$secondary;
 		}
 	}
 </style>

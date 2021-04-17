@@ -116,11 +116,14 @@
 </div>
 
 <style lang="scss">
+	@use '../theme.scss';
 	.wrapper {
 		width: 100%;
 		height: calc(100% - 50px);
 		margin-top: 50px;
 		overflow: auto;
 		position: absolute;
+
+		background: theme.$editor-bg;
 	}
 </style>
