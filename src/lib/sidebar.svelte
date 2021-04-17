@@ -35,6 +35,9 @@
 			<a class="sidebar__link" use:url={'settings'}><span class="iconify" data-icon="mdi:cog" /></a>
 		</li>
 	</ul>
+	<div class="sidebar__auth">
+		<a href="/login" class="sidebar__auth--login">login</a>
+	</div>
 </nav>
 
 <style lang="scss">
@@ -44,6 +47,9 @@
 		background: theme.$sidebar;
 		@include mixins.elevation(8px, 0.2);
 		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		&__list {
 			padding: 0;
 			margin: 0;
@@ -71,6 +77,23 @@
 			}
 			&:hover {
 				color: theme.$sidebar-icons--hover;
+			}
+		}
+		&__auth {
+			&--login {
+				font-weight: 500;
+				color: whitesmoke;
+				background: lighten($color: theme.$nav, $amount: 10);
+
+				text-decoration: none;
+				font-family: 'Roboto';
+				border-radius: 5px;
+
+				padding: 0.5em;
+				display: block;
+				box-sizing: border-box;
+				text-align: center;
+				margin: 0.5em;
 			}
 		}
 	}

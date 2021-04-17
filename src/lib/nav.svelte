@@ -1,9 +1,5 @@
 <header class="nav">
 	<h1 class="nav__title">8-bit-music</h1>
-
-	<div class="auth">
-		<a href="/login" class="login">login</a>
-	</div>
 </header>
 
 <style lang="scss">
@@ -34,14 +30,5 @@
 
 			color: white;
 		}
-	}
-	.login {
-		font-weight: 500;
-		color: whitesmoke;
-		background: lighten($color: theme.$nav, $amount: 10);
-		padding: 0.5em 1em;
-		text-decoration: none;
-		font-family: 'Roboto';
-		border-radius: 5px;
 	}
 </style>
