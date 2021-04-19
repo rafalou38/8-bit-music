@@ -1,4 +1,6 @@
 <script>
+	import { MaterialAppMin } from 'svelte-materialify';
+
 	import { page } from '$app/stores';
 
 	import '../app.scss';
@@ -15,15 +17,17 @@
 	>
 </svelte:head>
 
-<div class="body">
-	<Nav />
-	<div class="wrapper">
-		<Sidebar />
-		<main>
-			<slot />
-		</main>
+<MaterialAppMin>
+	<div class="body">
+		<Nav />
+		<div class="wrapper">
+			<Sidebar />
+			<main>
+				<slot />
+			</main>
+		</div>
 	</div>
-</div>
+</MaterialAppMin>
 
 <style lang="scss">
 	.body {
