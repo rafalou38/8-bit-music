@@ -1,4 +1,6 @@
 <script lang="ts">
+	import md5 from 'md5';
+
 	import { TextField, Icon, Button } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
 
@@ -8,13 +10,24 @@
 	let username = '';
 	let password = '';
 	let password_confirm = '';
+	let error = '';
 
-	function sendForm(
+	async function sendForm(
 		e: Event & {
 			currentTarget: EventTarget & HTMLFormElement;
 		}
 	) {
-		console.log(e);
+		error = '';
+		const response = await fetch('/auth/login', {
+			method: 'POST',
+			body: JSON.stringify({ username, password: md5(password) }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (!response.ok) {
+			error = await response.text();
+		}
 	}
 </script>
 
@@ -29,7 +42,8 @@
 				bind:value={password}
 				type={show ? 'text' : 'password'}
 				id="password"
-				error={password_confirm != password}
+				error={error != ''}
+				hint={error ? error : undefined}
 			>
 				Password
 				<div
