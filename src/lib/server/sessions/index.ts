@@ -12,3 +12,8 @@ export async function createSession(user: IUser) {
 
 	return uuid;
 }
+export async function getSession(uuid: string) {
+	return await UserSession.findOne({
+		uuid
+	}).exec();
+}
