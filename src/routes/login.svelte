@@ -3,6 +3,7 @@
 
 	import { TextField, Icon, Button } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
+	import { goto } from '$app/navigation';
 
 	let show = false;
 	let register = false;
@@ -18,7 +19,7 @@
 		}
 	) {
 		error = '';
-		const response = await fetch('/auth/login', {
+		const response = await fetch(register ? '/auth/register' : '/auth/login', {
 			method: 'POST',
 			body: JSON.stringify({ username, password: md5(password) }),
 			headers: {
@@ -27,6 +28,8 @@
 		});
 		if (!response.ok) {
 			error = await response.text();
+		} else {
+			goto('/profile');
 		}
 	}
 </script>
@@ -36,14 +39,17 @@
 		<h2>{register ? 'Register' : 'Login'}</h2>
 		<p>{register ? 'Register' : 'Login'} to save and share your creations</p>
 		<form on:submit|preventDefault={sendForm}>
-			<TextField filled bind:value={username} id="username">Username</TextField>
+			<TextField filled bind:value={username} id="username" on:change={() => (error = '')}
+				>Username</TextField
+			>
 			<TextField
 				filled
 				bind:value={password}
 				type={show ? 'text' : 'password'}
 				id="password"
 				error={error != ''}
-				hint={error ? error : undefined}
+				hint={error ? error : ''}
+				on:change={() => (error = '')}
 			>
 				Password
 				<div
@@ -62,6 +68,7 @@
 					error={password_confirm != password}
 					type={show ? 'text' : 'password'}
 					hint={password_confirm != password ? 'passwords do not match' : undefined}
+					on:change={() => (error = '')}
 				>
 					Confirm Password
 					<div
@@ -74,7 +81,12 @@
 					</div>
 				</TextField>
 			{/if}
-			<Button type="submit" class="submit-btn">{register ? 'Register' : 'Login'}</Button>
+			<Button
+				type="submit"
+				class="submit-btn"
+				disabled={!!error && (register ? password_confirm == password : true)}
+				>{register ? 'Register' : 'Login'}</Button
+			>
 		</form>
 		{#if register}
 			<p class="bottom-text">
