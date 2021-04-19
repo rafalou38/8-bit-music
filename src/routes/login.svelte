@@ -1,3 +1,17 @@
+<script lang="ts" context="module">
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = ({ session }) => {
+		if (session.authenticated) {
+			return {
+				status: 302,
+				redirect: '/profile'
+			};
+		}
+		return {};
+	};
+</script>
+
 <script lang="ts">
 	import md5 from 'md5';
 
