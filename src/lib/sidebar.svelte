@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { sessionStore } from './stores';
 	function url(node: HTMLElement, path: string) {
 		node.setAttribute('href', path);
 		node.setAttribute('title', path);
@@ -36,7 +37,12 @@
 		</li>
 	</ul>
 	<div class="sidebar__auth">
-		<a href="/login" class="sidebar__auth--login">login</a>
+		{JSON.stringify($sessionStore)}
+		{#if $sessionStore.authenticated}
+			<span class="iconify" data-icon="mdi:account" />
+		{:else}
+			<a href="/login" class="sidebar__auth--login">login</a>
+		{/if}
 	</div>
 </nav>
 

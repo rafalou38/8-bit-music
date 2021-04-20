@@ -1,23 +1,14 @@
-<script lang="ts" context="module">
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = ({ session }) => {
-		if (session.authenticated) {
-			return {
-				status: 302,
-				redirect: '/profile'
-			};
-		}
-		return {};
-	};
-</script>
-
 <script lang="ts">
 	import md5 from 'md5';
 
 	import { TextField, Icon, Button } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
 	import { goto } from '$app/navigation';
+	import { sessionStore } from '$lib/stores';
+
+	$: if ($sessionStore.authenticated) {
+		goto('/profile');
+	}
 
 	let show = false;
 	let register = false;
@@ -43,6 +34,7 @@
 		if (!response.ok) {
 			error = await response.text();
 		} else {
+			sessionStore.fetch();
 			goto('/profile');
 		}
 	}
