@@ -109,6 +109,7 @@
 		{/if}
 	</div>
 </div>
+<slot />
 
 <style lang="scss">
 	@use "../mixins.scss";

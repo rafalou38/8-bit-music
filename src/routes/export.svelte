@@ -27,6 +27,7 @@
 		{/if}
 	</div>
 </div>
+<slot />
 
 <style lang="scss">
 	@use '../theme.scss';
@@ -69,8 +70,5 @@
 		font-weight: 600;
 		display: block;
 		@include mixins.ez-btn;
-		&--secondary {
-			// background: theme.$secondary;
-		}
 	}
 </style>

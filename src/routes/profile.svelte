@@ -9,3 +9,4 @@
 </script>
 
 <p>you are {$sessionStore.username}</p>
+<slot />

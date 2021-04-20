@@ -30,7 +30,7 @@
 
 	let rawNotes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
 
-	export let decoded_notes: INote[] | undefined;
+	export let decoded_notes: INote[] | undefined = undefined;
 
 	if (decoded_notes) {
 		console.log(decoded_notes);
@@ -114,6 +114,7 @@
 		setProgress={EPlayer?.setProgress}
 	/>
 </div>
+<slot />
 
 <style lang="scss">
 	@use '../theme.scss';
