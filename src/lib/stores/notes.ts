@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { uniqueID } from './helpers';
+import { uniqueID } from '../helpers';
 
 export const notes = writable([] as INote[]);
 export const keys_count = writable(5);
