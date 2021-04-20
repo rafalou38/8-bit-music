@@ -37,9 +37,11 @@
 		</li>
 	</ul>
 	<div class="sidebar__auth">
-		{JSON.stringify($sessionStore)}
 		{#if $sessionStore.authenticated}
-			<span class="iconify" data-icon="mdi:account" />
+			<a class="sidebar__element sidebar__link--active" use:url={'profile'}>
+				<span class="iconify account-btn" data-icon="mdi:account" />
+				<span class="account-label">{$sessionStore.username}</span>
+			</a>
 		{:else}
 			<a href="/login" class="sidebar__auth--login">login</a>
 		{/if}
@@ -100,6 +102,31 @@
 				box-sizing: border-box;
 				text-align: center;
 				margin: 0.5em;
+			}
+			& .sidebar__element {
+				padding: 0.5em;
+				font-family: 'Roboto';
+				box-sizing: border-box;
+				text-align: center;
+				text-decoration: none;
+				color: theme.$sidebar-icons;
+				display: block;
+				height: max-content;
+				& .account-btn {
+					font-size: 3em;
+					display: block;
+					width: 100%;
+				}
+				& .account-label {
+					display: block;
+					margin: 0 auto;
+					width: 80%;
+					overflow-wrap: break-word;
+					line-height: 1.5ch;
+				}
+				&:hover {
+					color: theme.$sidebar-icons--hover;
+				}
 			}
 		}
 	}
