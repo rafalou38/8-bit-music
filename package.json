@@ -6,7 +6,7 @@
 		"build": "svelte-kit build",
 		"start": "svelte-kit start --host --port $PORT",
 		"lint": "prettier --check . && eslint --ignore-path .gitignore .",
-		"format": "prettier --write ."
+		"format": "prettier --end-of-line crlf --write ."
 	},
 	"dependencies": {
 		"@mdi/js": "^5.9.55",
