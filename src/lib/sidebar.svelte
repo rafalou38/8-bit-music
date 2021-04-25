@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { sessionStore } from './stores';
 	function url(node: HTMLElement, { path, title }: { path: string; title?: string }) {
-		node.setAttribute('href', path);
+		node.setAttribute('href', "/" + path);
 		node.setAttribute('title', title ? title : path);
 		page.subscribe((newPage) => {
 			if ('/' + path == newPage.path) {
