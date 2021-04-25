@@ -2,6 +2,10 @@
 	"name": "8-bit-music",
 	"version": "0.0.1",
 	"scripts": {
+		"prepare": "npm run vite-workaround && npm run smui-theme-light && npm run smui-theme-dark",
+		"vite-workaround": "node _helper/vite-workaround.js",
+		"smui-theme-light": "smui-theme compile static/smui.css -i src/theme",
+		"smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark",
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
 		"start": "svelte-kit start --host --port $PORT",
@@ -9,21 +13,25 @@
 		"format": "prettier --end-of-line crlf --write ."
 	},
 	"dependencies": {
+		"cookie": "^0.4.1",
+		"dotenv": "^8.2.0",
+		"js-cookie": "^2.2.1",
+		"md5": "^2.3.0",
+		"mongoose": "^5.12.4",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
 		"@mdi/js": "^5.9.55",
+		"@smui/button": "^4.0.0",
 		"@sveltejs/adapter-node": "next",
 		"@sveltejs/kit": "next",
 		"@types/js-cookie": "^2.2.6",
 		"@typescript-eslint/eslint-plugin": "^4.22.0",
 		"@typescript-eslint/parser": "^4.22.0",
 		"any-base": "^1.1.0",
-		"cookie": "^0.4.1",
-		"dotenv": "^8.2.0",
 		"eslint": "^7.24.0",
 		"eslint-config-prettier": "^8.2.0",
 		"eslint-plugin-svelte3": "^3.1.2",
-		"js-cookie": "^2.2.1",
-		"md5": "^2.3.0",
-		"mongoose": "^5.12.4",
 		"music-scale": "^1.2.0",
 		"prettier": "~2.2.1",
 		"prettier-plugin-svelte": "^2.2.0",
@@ -31,13 +39,11 @@
 		"sass": "^1.32.10",
 		"svelte": "^3.37.0",
 		"svelte-dnd-action": "^0.9.5",
-		"svelte-materialify": "^0.3.10",
 		"svelte-preprocess": "^4.7.1",
 		"tone": "^14.7.77",
 		"tslib": "^2.2.0",
 		"typescript": "^4.2.4",
-		"uuid": "^8.3.2",
-		"vite": "^2.1.5"
+		"smui-theme": "^4.0.0"
 	},
 	"type": "module"
 }
