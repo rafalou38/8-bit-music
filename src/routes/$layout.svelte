@@ -1,6 +1,6 @@
 <script>
-	import { Button, Icon, MaterialAppMin } from 'svelte-materialify';
-
+	import Fab, { Icon } from '@smui/fab';
+	import Svg from '@smui/common/Svg.svelte';
 	import { page } from '$app/stores';
 
 	import '../app.scss';
@@ -18,22 +18,20 @@
 	>
 </svelte:head>
 
-<MaterialAppMin>
-	<div class="body">
-		<Nav />
-		<div class="wrapper">
-			<Sidebar />
-			<main>
-				<slot />
-			</main>
-		</div>
+<div class="body ">
+	<Nav />
+	<div class="wrapper">
+		<Sidebar />
+		<main>
+			<slot />
+		</main>
 	</div>
-	<a href="/editor/new">
-		<Button fab class="add-fab blue white-text">
-			<Icon path={mdiPlus} size="32px" />
-		</Button>
-	</a>
-</MaterialAppMin>
+</div>
+<a href="/editor/new" class="add-fab">
+	<Fab color="primary">
+		<Icon component={Svg} viewBox="4 4 16 16"><path fill="currentColor" d={mdiPlus} /></Icon>
+	</Fab>
+</a>
 
 <style lang="scss">
 	.body {
@@ -51,7 +49,7 @@
 
 		position: relative;
 	}
-	:global(.add-fab) {
+	.add-fab {
 		position: fixed;
 		right: 16px;
 		bottom: 16px;

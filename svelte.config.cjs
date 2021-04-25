@@ -22,8 +22,8 @@ module.exports = {
 
 		vite: {
 			ssr: {
+				external: Object.keys(pkg.dependencies),
 				noExternal: [
-					...Object.keys(pkg.dependencies || {}),
 					...Object.keys(pkg.devDependencies || {}).filter((name) => name.startsWith('@smui'))
 				]
 			}

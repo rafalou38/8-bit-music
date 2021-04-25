@@ -21,3 +21,7 @@ html {
 		flex-grow: 1;
 	}
 }
+
+* svg:focus {
+	outline: 0;
+}
