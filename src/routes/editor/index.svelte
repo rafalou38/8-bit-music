@@ -117,7 +117,7 @@
 <slot />
 
 <style lang="scss">
-	@use '../theme.scss';
+	@use '../../theme.scss';
 	.wrapper {
 		width: 100%;
 		height: calc(100% - 50px);
