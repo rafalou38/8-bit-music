@@ -1,11 +1,12 @@
 <script>
-	import { MaterialAppMin } from 'svelte-materialify';
+	import { Button, Icon, MaterialAppMin } from 'svelte-materialify';
 
 	import { page } from '$app/stores';
 
 	import '../app.scss';
 	import Nav from '$lib/nav.svelte';
 	import Sidebar from '$lib/sidebar.svelte';
+	import { mdiPlus } from '@mdi/js';
 </script>
 
 <svelte:head>
@@ -27,6 +28,11 @@
 			</main>
 		</div>
 	</div>
+	<a href="/editor/new">
+		<Button fab class="add-fab blue white-text">
+			<Icon path={mdiPlus} size="32px" />
+		</Button>
+	</a>
 </MaterialAppMin>
 
 <style lang="scss">
@@ -44,5 +50,10 @@
 		flex-grow: 1;
 
 		position: relative;
+	}
+	:global(.add-fab) {
+		position: fixed;
+		right: 16px;
+		bottom: 16px;
 	}
 </style>
