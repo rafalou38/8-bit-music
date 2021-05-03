@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Button, Icon } from 'svelte-materialify';
+	import Button, { Label, Icon } from '@smui/button';
+	import Svg from '@smui/common/Svg.svelte';
 	import { mdiLogoutVariant } from '@mdi/js';
 	import jsCookies from 'js-cookie';
 
@@ -23,9 +24,12 @@
 	<div class="main">
 		<h2>Profile</h2>
 		<h3>you are <b>{$sessionStore.username}</b></h3>
-		<Button class="logout-btn" on:click={logout}
-			>Logout <Icon path={mdiLogoutVariant} class="ml-3" /></Button
-		>
+		<Button color="primary" on:click={logout} variant="raised">
+			<Label>Logout</Label>
+			<Icon component={Svg} viewBox="0 0 24 24"
+				><path fill="currentColor" d={mdiLogoutVariant} /></Icon
+			>
+		</Button>
 	</div>
 </div>
 

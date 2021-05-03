@@ -1,4 +1,8 @@
 <script lang="ts">
+	import Select, { Option } from '@smui/select';
+	import Textfield from '@smui/textfield';
+	import Select, { Option } from '@smui/select';
+
 	import { Select, Button, TextField } from 'svelte-materialify';
 	import scale from 'music-scale';
 	import { uniqueID } from '$lib/helpers';

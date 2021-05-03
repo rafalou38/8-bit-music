@@ -24,6 +24,7 @@
 		"@mdi/js": "^5.9.55",
 		"@smui/button": "^4.0.0",
 		"@smui/fab": "^4.0.0",
+		"@smui/icon-button": "^4.0.0",
 		"@smui/paper": "^4.0.0",
 		"@smui/select": "^4.0.0",
 		"@smui/textfield": "^4.0.0",

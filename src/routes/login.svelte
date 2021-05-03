@@ -1,7 +1,9 @@
 <script lang="ts">
 	import md5 from 'md5';
-
-	import { TextField, Icon, Button } from 'svelte-materialify';
+	import IconButton from '@smui/icon-button';
+	import Button, { Label, Icon } from '@smui/button';
+	import Svg from '@smui/common/Svg.svelte';
+	import Textfield from '@smui/textfield';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
 	import { goto } from '$app/navigation';
 	import { sessionStore } from '$lib/stores';
@@ -17,6 +19,11 @@
 	let password = '';
 	let password_confirm = '';
 	let error = '';
+	let errorPassword = '';
+
+	$: {
+		errorPassword = register ? (password_confirm !== password ? 'paswords do not match' : '') : '';
+	}
 
 	async function sendForm(
 		e: Event & {
@@ -45,54 +52,81 @@
 		<h2>{register ? 'Register' : 'Login'}</h2>
 		<p>{register ? 'Register' : 'Login'} to save and share your creations</p>
 		<form on:submit|preventDefault={sendForm}>
-			<TextField filled bind:value={username} id="username" on:change={() => (error = '')}
-				>Username</TextField
-			>
-			<TextField
-				filled
-				bind:value={password}
-				type={show ? 'text' : 'password'}
-				id="password"
-				error={error != ''}
-				hint={error ? error : ''}
+			<Textfield
+				variant="filled"
+				required
+				bind:value={username}
+				invalid={!!error}
+				id="username"
 				on:change={() => (error = '')}
+				label="Username"
+			/>
+
+			<p class="helper error">{error}</p>
+			<Textfield
+				variant="filled"
+				required
+				bind:value={password}
+				invalid={!!errorPassword}
+				type={show ? 'text' : 'password'}
+				on:change={() => (error = '')}
+				label="Password"
 			>
-				Password
-				<div
-					slot="append"
-					on:click={() => {
+				<IconButton
+					slot="trailingIcon"
+					on:click={(e) => {
+						e.preventDefault();
 						show = !show;
 					}}
 				>
-					<Icon path={show ? mdiEyeOff : mdiEye} />
-				</div>
-			</TextField>
+					{#if show}
+						<Icon component={Svg} viewBox="0 0 24 24"
+							><path fill="currentColor" d={mdiEyeOff} /></Icon
+						>
+					{:else}
+						<Icon component={Svg} viewBox="0 0 24 24"><path fill="currentColor" d={mdiEye} /></Icon>
+					{/if}
+				</IconButton>
+			</Textfield>
+
 			{#if register}
-				<TextField
-					filled
+				<Textfield
+					variant="filled"
+					required
 					bind:value={password_confirm}
-					error={password_confirm != password}
+					invalid={!!errorPassword}
 					type={show ? 'text' : 'password'}
-					hint={password_confirm != password ? 'passwords do not match' : undefined}
 					on:change={() => (error = '')}
+					label="Confirm Password"
 				>
-					Confirm Password
-					<div
-						slot="append"
-						on:click={() => {
+					<IconButton
+						slot="trailingIcon"
+						on:click={(e) => {
+							e.preventDefault();
 							show = !show;
 						}}
 					>
-						<Icon path={show ? mdiEyeOff : mdiEye} />
-					</div>
-				</TextField>
+						{#if show}
+							<Icon component={Svg} viewBox="0 0 24 24"
+								><path fill="currentColor" d={mdiEyeOff} /></Icon
+							>
+						{:else}
+							<Icon component={Svg} viewBox="0 0 24 24"
+								><path fill="currentColor" d={mdiEye} /></Icon
+							>
+						{/if}
+					</IconButton>
+				</Textfield>
+				<p class="helper error">{errorPassword}</p>
 			{/if}
 			<Button
+				variant="raised"
 				type="submit"
 				class="submit-btn"
-				disabled={!!error && (register ? password_confirm == password : true)}
-				>{register ? 'Register' : 'Login'}</Button
+				disabled={!!error || !!errorPassword}
 			>
+				<Label>{register ? 'Register' : 'Login'}</Label>
+			</Button>
 		</form>
 		{#if register}
 			<p class="bottom-text">
@@ -149,6 +183,9 @@
 			background: theme.$primary;
 			color: white;
 		}
+		:global(.submit-btn[disabled]) {
+			background: rgba(0, 0, 0, 0.26);
+		}
 		.btn-link {
 			display: inline;
 			border: none;
@@ -164,6 +201,27 @@
 			position: absolute;
 			bottom: 0;
 			width: 100%;
+		}
+		form {
+			display: flex;
+			flex-direction: column;
+			& .helper {
+				color: rgba(0, 0, 0, 0.6);
+				font-size: 12px;
+				display: flex;
+				flex-direction: column-reverse;
+				height: 16px;
+				padding: 0 12px 0 16px;
+				line-height: 12px;
+				letter-spacing: 0.4px;
+				font-weight: 400;
+				margin: 0;
+				margin-bottom: 1em;
+				text-align: start;
+				&.error {
+					color: #b71c1c;
+				}
+			}
 		}
 	}
 </style>
