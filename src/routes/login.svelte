@@ -1,3 +1,7 @@
+<script context="module">
+	export const ssr = false;
+</script>
+
 <script lang="ts">
 	import md5 from 'md5';
 	import IconButton from '@smui/icon-button';

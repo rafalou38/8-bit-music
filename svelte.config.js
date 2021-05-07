@@ -25,7 +25,8 @@ const config = {
 					'@smui/paper',
 					'@smui/ripple',
 					'@smui/select',
-					'@smui/textfield'
+					'@smui/textfield',
+					'@smui/tooltip'
 				]
 			}
 		}
