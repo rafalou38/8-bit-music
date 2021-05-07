@@ -8,7 +8,7 @@
 
 	import { mdiTrashCan } from '@mdi/js';
 
-	import NotesEditor from '$lib/editor/notesEditor.svelte';
+	import NotesEditor from '$lib/editor/notesEditor/index.svelte';
 
 	let notes: { id: string; note: string | number; name: string }[] = [
 		{ id: 'sdgdfhgjhgjghj', note: 're', name: 'bob' },
