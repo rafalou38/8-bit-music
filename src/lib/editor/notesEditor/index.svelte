@@ -2,6 +2,7 @@
 	import BasicEditor from './basic.svelte';
 	import CustomEditor from './custom.svelte';
 	import SearchEditor from './search.svelte';
+	import AdvancedEditor from './advanced.svelte';
 
 	import Select, { Option } from '@smui/select';
 
@@ -23,6 +24,7 @@
 	<BasicEditor bind:notes />
 {:else if mode == 'advanced'}
 	<!-- else if content here -->
+	<AdvancedEditor bind:notes />
 {:else if mode == 'search note'}
 	<SearchEditor bind:notes />
 {:else if mode == 'custom'}
