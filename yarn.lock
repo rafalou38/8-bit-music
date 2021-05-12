@@ -304,6 +304,22 @@
     "@material/feature-targeting" "^11.0.0"
     tslib "^2.1.0"
 
+"@material/tooltip@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@material/tooltip/-/tooltip-11.0.0.tgz#1b3af742f9c9072300e32a85d192d57e0ca8c0b4"
+  integrity sha512-i9PvUDB2fQ6Q+1uOU8gFfe9WmVpD3M0ilN9LgGSbY/tCIwH6kxCS2jwa3/z1yJNWXBikLkpNLlOs1JmYYqteVA==
+  dependencies:
+    "@material/animation" "^11.0.0"
+    "@material/base" "^11.0.0"
+    "@material/dom" "^11.0.0"
+    "@material/elevation" "^11.0.0"
+    "@material/feature-targeting" "^11.0.0"
+    "@material/rtl" "^11.0.0"
+    "@material/shape" "^11.0.0"
+    "@material/theme" "^11.0.0"
+    "@material/typography" "^11.0.0"
+    tslib "^2.1.0"
+
 "@material/touch-target@^11.0.0":
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/@material/touch-target/-/touch-target-11.0.0.tgz#4f0cc0b928c90114f8b9b4538688215a1769e629"
@@ -373,6 +389,14 @@
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@smui/common/-/common-4.1.0.tgz#8cc0912c187a934b1325d6188e50c7ccc65f8888"
   integrity sha512-mEutlgOaQ0f6c5udSxBp7UMeE64LE++ReASG7dceFwdlnPKrna2i4QM6UE3X1IeTILbtxIq/ALbpvjv3hTKX/g==
+  dependencies:
+    "@material/dom" "^11.0.0"
+    svelte "^3.35.0"
+
+"@smui/common@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/common/-/common-4.2.0.tgz#81ddb9d5b9a39cc814188fa18834301261b9ea9e"
+  integrity sha512-ersYpoqvb0hGP2lFdOtNlue5m74H/eOEtpbb5r4Sk8lmwaDh+Gj8xbX93AAE2Jfq/p6XcEmHB6CsGoATi5JHOQ==
   dependencies:
     "@material/dom" "^11.0.0"
     svelte "^3.35.0"
@@ -506,6 +530,14 @@
     "@smui/line-ripple" "^4.1.0"
     "@smui/notched-outline" "^4.1.0"
     "@smui/ripple" "^4.1.0"
+
+"@smui/tooltip@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/tooltip/-/tooltip-4.2.0.tgz#da0d313323998bb102f165f96971bfbbfed5751a"
+  integrity sha512-tcCUa+b2UsksxTZi5YLQxvSIWjp5x5N8CKnF1l+Ahrhwl8LNnFdQjHPtDx6HpAmPTfjLDBI1x8KqbUyAnAnojw==
+  dependencies:
+    "@material/tooltip" "^11.0.0"
+    "@smui/common" "^4.2.0"
 
 "@sveltejs/adapter-node@next":
   version "1.0.0-next.18"
