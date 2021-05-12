@@ -18,6 +18,7 @@
 		"js-cookie": "^2.2.1",
 		"md5": "^2.3.0",
 		"mongoose": "^5.12.4",
+		"@sveltejs/kit": "next",
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
@@ -31,7 +32,6 @@
 		"@smui/textfield": "^4.0.0",
 		"@smui/tooltip": "^4.2.0",
 		"@sveltejs/adapter-node": "next",
-		"@sveltejs/kit": "next",
 		"@types/js-cookie": "^2.2.6",
 		"@typescript-eslint/eslint-plugin": "^4.22.0",
 		"@typescript-eslint/parser": "^4.22.0",
