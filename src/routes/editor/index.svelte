@@ -33,7 +33,7 @@
 	export let decoded_notes: INote[] | undefined = undefined;
 
 	if (decoded_notes) {
-		console.log(decoded_notes);
+		keys_count.set(decoded_notes[0]?.keys.length);
 
 		notes.set(decoded_notes);
 	}
