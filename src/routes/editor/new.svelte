@@ -3,6 +3,7 @@
 	import { dndzone } from 'svelte-dnd-action';
 
 	import IconButton, { Icon } from '@smui/icon-button';
+	import Button, { Label } from '@smui/button';
 
 	import Svg from '@smui/common/Svg.svelte';
 
@@ -11,10 +12,41 @@
 	import NotesEditor from '$lib/editor/notesEditor/index.svelte';
 
 	let notes: { id: string; note: string | number; name: string }[] = [
-		{ id: 'sdgdfhgjhgjghj', note: 're', name: 'bob' },
-		{ id: 'seydruftgyuli', note: 'fr', name: 'sgd' },
-		{ id: 'fkjlkfkgyhkgf', note: 'gs', name: 'desg' },
-		{ id: 'drjhftgjk', note: 'zg', name: 'sgeg' }
+		{
+			name: 'C4',
+			note: 'C4',
+			id: 'KQ6SFBKIXIWPS'
+		},
+		{
+			name: 'D4',
+			note: 'D4',
+			id: 'KQ6SFBKIZ6ZKN'
+		},
+		{
+			name: 'E4',
+			note: 'E4',
+			id: 'KQ6SFBKI5TYDW'
+		},
+		{
+			name: 'F4',
+			note: 'F4',
+			id: 'KQ6SFBKI5MH9E'
+		},
+		{
+			name: 'G4',
+			note: 'G4',
+			id: 'KQ6SFBKI8FAKW'
+		},
+		{
+			name: 'A4',
+			note: 'A4',
+			id: 'KQ6SFBKI6QWZK'
+		},
+		{
+			name: 'B4',
+			note: 'B4',
+			id: 'KQ6SFBKI9UA72'
+		}
 	];
 
 	const flipDurationMs = 300;
@@ -73,6 +105,12 @@
 					</IconButton>
 				</div>
 			{/each}
+		</div>
+		<div class="next-button">
+			<Button variant="raised">
+				<Label>next</Label>
+				<Icon class="material-icons">arrow_forward</Icon>
+			</Button>
 		</div>
 	</div>
 </div>
@@ -137,5 +175,9 @@
 		display: block;
 		margin: 10px;
 		margin-left: auto;
+	}
+	.next-button {
+		text-align: center;
+		margin-top: 4em;
 	}
 </style>
