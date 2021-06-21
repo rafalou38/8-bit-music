@@ -1,17 +1,14 @@
 <script lang="ts">
-	import { flip } from 'svelte/animate';
-	import { dndzone } from 'svelte-dnd-action';
-
-	import IconButton, { Icon } from '@smui/icon-button';
+	import { Icon } from '@smui/icon-button';
 	import Button, { Label } from '@smui/button';
+	import Notes from '$lib/editor/notesEditor/settings/notes.svelte';
+	import Color from '$lib/editor/notesEditor/settings/color.svelte';
+	import { notes as notes_store } from '$lib/stores/notes';
+	import { goto } from '$app/navigation';
 
-	import Svg from '@smui/common/Svg.svelte';
+	let current: number = 0;
 
-	import { mdiTrashCan } from '@mdi/js';
-
-	import NotesEditor from '$lib/editor/notesEditor/index.svelte';
-
-	let notes: { id: string; note: string | number; name: string }[] = [
+	let notes: { id: string; note: string | number; name: string; color?: string }[] = [
 		{
 			name: 'C4',
 			note: 'C4',
@@ -48,69 +45,51 @@
 			id: 'KQ6SFBKI9UA72'
 		}
 	];
-
-	const flipDurationMs = 300;
-	function handleDndConsider(e) {
-		notes = e.detail.items;
-	}
-	function handleDndFinalize(e) {
-		notes = e.detail.items;
+	function save() {
+		notes_store.set(
+			notes.map((note) => {
+				return {
+					label: note.name,
+					id: note.id,
+					note: note.note,
+					color: note.color,
+					keys: []
+				};
+			})
+		);
+		goto('/editor');
 	}
 </script>
 
 <div class="new__bg">
 	<div class="new__container">
 		<h2>Create a new Music</h2>
-		<p>Choose your notes ♫</p>
-		<NotesEditor bind:notes />
-		{#if notes.length > 0}
-			<IconButton
-				class="btn-remove-all"
-				title="Remove all notes"
-				on:click={() => {
-					notes = [];
-				}}
-			>
-				<Icon component={Svg} viewBox="0 0 24 24">
-					<path fill="currentColor" d={mdiTrashCan} />
-				</Icon>
-			</IconButton>
-		{/if}
-		<div
-			class="notes-list"
-			use:dndzone={{
-				items: notes,
-				flipDurationMs,
-				dropTargetStyle: { 'background-color': '#00000010' }
-			}}
-			on:consider={handleDndConsider}
-			on:finalize={handleDndFinalize}
-		>
-			{#each notes as note, i (note.id)}
-				<div class="listItem" animate:flip={{ duration: flipDurationMs }}>
-					<div class="listItem__left">
-						<p class="listItem__title">{note.name}</p>
-						<span class="listItem__2d">{note.note}</span>
-					</div>
 
-					<IconButton
-						on:click={() => {
-							notes = notes.filter((e) => e.id !== note.id);
-						}}
-						title="remove"
-					>
-						<Icon component={Svg} viewBox="0 0 24 24">
-							<path fill="currentColor" d={mdiTrashCan} />
-						</Icon>
-					</IconButton>
-				</div>
-			{/each}
-		</div>
+		{#if current == 0}
+			<Notes bind:notes />
+		{:else if current == 1}
+			<Color bind:notes />
+		{/if}
+
 		<div class="next-button">
-			<Button variant="raised">
-				<Label>next</Label>
-				<Icon class="material-icons">arrow_forward</Icon>
-			</Button>
+			{#if current !== 0}
+				<Button variant="raised" color="secondary" on:click={() => current--}>
+					<Label>previous</Label>
+					<Icon class="material-icons">arrow_backward</Icon>
+				</Button>
+			{/if}
+
+			{#if current == 1}
+				<Button variant="raised" on:click={save}>
+					<Label>save</Label>
+					<Icon class="material-icons">save</Icon>
+				</Button>
+			{:else}
+				<Button variant="raised" on:click={() => current++}>
+					<Label>next</Label>
+					<Icon class="material-icons">arrow_forward</Icon>
+				</Button>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -146,35 +125,6 @@
 	h2 {
 		font-size: 2em;
 		font-weight: 400;
-	}
-	.notes-list {
-		border: thin solid rgba(0, 0, 0, 0.12);
-	}
-	.listItem {
-		background: white;
-		height: 64px;
-		padding: 16px;
-		display: flex;
-		box-sizing: border-box;
-		justify-content: space-between;
-		border-bottom: thin solid rgba(0, 0, 0, 0.12);
-		&__title {
-			font-size: 16px;
-			margin: 0;
-		}
-		&__2d {
-			font-size: 14px;
-			margin: 0;
-			color: rgba(0, 0, 0, 0.54);
-		}
-		:global(.mdc-icon-button) {
-			margin-top: -8px;
-		}
-	}
-	:global(.btn-remove-all) {
-		display: block;
-		margin: 10px;
-		margin-left: auto;
 	}
 	.next-button {
 		text-align: center;
