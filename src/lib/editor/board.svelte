@@ -38,9 +38,70 @@
 			return oldNotes;
 		});
 	}
+	function showContextMenu(
+		x: number,
+		y: number,
+		target: 'key' | 'note',
+		note?: INote,
+		ky?: number
+	) {
+		contextmenuElement.style.display = 'block';
+		contextmenuElement.style.left = x + 'px';
+		contextmenuElement.style.top = y + 'px';
+	}
+
+	let contextmenuElement: HTMLUListElement;
+	let copiedColumn = true;
+	let longTimeout: NodeJS.Timeout;
 </script>
 
-<svelte:body on:mouseup={() => (sliding = false)} />
+<svelte:body
+	on:mouseup={() => {
+		sliding = false;
+		contextmenuElement.style.display = 'none';
+	}} />
+
+<ul class="context-menu" bind:this={contextmenuElement}>
+	<li>
+		<span class="iconify" data-icon="mdi:content-copy" data-inline="false" />copy column
+	</li>
+	{#if copiedColumn}
+		<li>
+			<span class="iconify" data-icon="mdi:content-paste" data-inline="false" />paste column
+		</li>
+	{/if}
+	<li>
+		<span class="iconify" data-icon="mdi:content-duplicate" data-inline="false" />duplicate column
+	</li>
+	<hr />
+	<li>
+		<span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" /> remove column
+	</li>
+	<li>
+		<span class="iconify" data-icon="mdi:table-column-plus-after" data-inline="false" />insert
+		column after
+	</li>
+	<li>
+		<span class="iconify" data-icon="mdi:table-column-plus-before" data-inline="false" />insert
+		column before
+	</li>
+	<hr />
+	<li>
+		<span class="iconify" data-icon="mdi:timer-outline" data-inline="false" />set column duration
+	</li>
+	<hr />
+	<li><span class="iconify" data-icon="mdi:table-row-remove" data-inline="false" />remove note</li>
+	<li><span class="iconify" data-icon="mdi:wrench" data-inline="false" />edit note</li>
+	<hr />
+	<li>
+		<span class="iconify" data-icon="mdi:dice-3-outline" data-inline="false" />randomize board
+	</li>
+
+	<li style="color: crimson;">
+		<span class="iconify" data-icon="mdi:trash-can-outline" data-inline="false" />clear board
+	</li>
+</ul>
+
 <div class="wrapper" style={`--key-progress: ${key_progess}%`}>
 	<Labels bind:loop {looping} {current_row} {setProgress} />
 	<table class="board" cellspacing="0" cellpadding="0">
@@ -60,13 +121,30 @@
 							class:board__cell--key--active={current_row == ky}
 							style={key.active ? `background: ${note.color};` : ''}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
-							on:mouseenter={() => {
-								if (sliding) {
+							on:mouseenter={(e) => {
+								console.log(e);
+
+								if (sliding && e.buttons === 1) {
 									toggle_key(ny, ky);
 								}
 							}}
-							on:mousedown={() => {
-								toggle_key(ny, ky);
+							on:mouseup={(e) => {
+								if (e.button === 0) {
+									toggle_key(ny, ky);
+								}
+							}}
+							on:touchstart={(e) => {
+								longTimeout = setTimeout(
+									() =>
+										showContextMenu(e.touches[0]?.clientX, e.touches[0]?.clientY, 'key', note, ky),
+									500
+								);
+							}}
+							on:touchend={(e) => {
+								clearTimeout(longTimeout);
+							}}
+							on:contextmenu|preventDefault={(e) => {
+								showContextMenu(e.clientX, e.clientY, 'key', note, ky);
 							}}
 						/>{/each}
 				</tr>
@@ -170,6 +248,47 @@
 				color: white;
 				flex-shrink: 0;
 			}
+		}
+	}
+	.context-menu {
+		position: fixed;
+		z-index: 100;
+
+		display: none;
+
+		min-width: 100px;
+		padding: 0;
+		margin: 0;
+
+		background-color: white;
+		border: thin solid rgba(83, 83, 83, 0.424);
+		border-radius: 0.25em;
+
+		list-style: none;
+		li {
+			display: flex;
+			align-items: center;
+
+			padding: 0.5em;
+
+			user-select: none;
+
+			font-family: 'Roboto';
+			&:last-child {
+				border-bottom: none;
+			}
+			&:hover {
+				background: rgba(83, 83, 83, 0.1);
+			}
+			.iconify {
+				margin-right: 0.5em;
+			}
+		}
+		hr {
+			height: 0;
+			margin: 5px 10px;
+			border: none;
+			border-bottom: inherit;
 		}
 	}
 </style>
