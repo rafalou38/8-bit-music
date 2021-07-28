@@ -83,6 +83,26 @@
   dependencies:
     tslib "^2.1.0"
 
+"@material/dialog@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@material/dialog/-/dialog-11.0.0.tgz#482061846e012345c515a05877a2a051f8f80920"
+  integrity sha512-d49zJJmUGTcdWVdBNbXSdDk55mbIIvYpg3ENY9fg6ZlesGsDTgdykGgUkXEaqQeT+Qe/8+4vdaPpz8WNd2Qzyw==
+  dependencies:
+    "@material/animation" "^11.0.0"
+    "@material/base" "^11.0.0"
+    "@material/button" "^11.0.0"
+    "@material/dom" "^11.0.0"
+    "@material/elevation" "^11.0.0"
+    "@material/feature-targeting" "^11.0.0"
+    "@material/icon-button" "^11.0.0"
+    "@material/ripple" "^11.0.0"
+    "@material/rtl" "^11.0.0"
+    "@material/shape" "^11.0.0"
+    "@material/theme" "^11.0.0"
+    "@material/touch-target" "^11.0.0"
+    "@material/typography" "^11.0.0"
+    tslib "^2.1.0"
+
 "@material/dom@^11.0.0":
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/@material/dom/-/dom-11.0.0.tgz#ea74b0719b9b51515c085ddc30708b5aefdb31da"
@@ -135,6 +155,19 @@
     "@material/base" "^11.0.0"
     "@material/dom" "^11.0.0"
     "@material/feature-targeting" "^11.0.0"
+    "@material/rtl" "^11.0.0"
+    "@material/theme" "^11.0.0"
+    "@material/typography" "^11.0.0"
+    tslib "^2.1.0"
+
+"@material/form-field@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@material/form-field/-/form-field-11.0.0.tgz#7839c78502b38503d631b0acd107623b8ccc00b5"
+  integrity sha512-w42PHsq8A+7cgrgBGT5j0h3FTgjs7qvLJFYlwp5QYayC2qTZQa3VsF3OTxuXcn3FVlFnBCwILp0+FfWfRmaH4w==
+  dependencies:
+    "@material/base" "^11.0.0"
+    "@material/feature-targeting" "^11.0.0"
+    "@material/ripple" "^11.0.0"
     "@material/rtl" "^11.0.0"
     "@material/theme" "^11.0.0"
     "@material/typography" "^11.0.0"
@@ -401,6 +434,16 @@
     "@material/dom" "^11.0.0"
     svelte "^3.35.0"
 
+"@smui/dialog@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/dialog/-/dialog-4.2.0.tgz#39c3e0ff1a297edb5e2f5960de026e41bd057e0b"
+  integrity sha512-pBzEoOzkHHzY58O1dDJ1ffRtD9A3IUJBe9tmLlf6LaiWMfkR1hE/V/bAgJIs5XRIZRjD5brlo83b7/4PpNFcYw==
+  dependencies:
+    "@material/button" "^11.0.0"
+    "@material/dialog" "^11.0.0"
+    "@material/dom" "^11.0.0"
+    "@smui/common" "^4.2.0"
+
 "@smui/fab@^4.0.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@smui/fab/-/fab-4.1.0.tgz#81f9a581d277de2af7deb2fb1ffd9c132edbba59"
@@ -418,6 +461,16 @@
   dependencies:
     "@material/floating-label" "^11.0.0"
     "@smui/common" "^4.1.0"
+
+"@smui/form-field@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/form-field/-/form-field-4.2.0.tgz#f009df9f1263174ebfc1db2b2dfea745f99beac6"
+  integrity sha512-3sjKCmjr4Ox1L//t6zouHjtp6qD8QvLsXYGpCBtVhZR45PbVTFMMKkPb0vr7yFj+Oy8EPyGWfVsFEOaedL4xDA==
+  dependencies:
+    "@material/feature-targeting" "^11.0.0"
+    "@material/form-field" "^11.0.0"
+    "@material/rtl" "^11.0.0"
+    "@smui/common" "^4.2.0"
 
 "@smui/icon-button@^4.0.0":
   version "4.1.0"

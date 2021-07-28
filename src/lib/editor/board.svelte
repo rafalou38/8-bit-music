@@ -1,11 +1,12 @@
 <script lang="ts">
 	import Labels from './labels.svelte';
-
+	import DurationPopup from './durationPopup.svelte';
 	import { uniqueID } from '$lib/helpers';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import * as Tone from 'tone';
 	import { keys_count, notes } from '$lib/stores';
+	import { browser } from '$app/env';
 	let synth: Tone.Synth<Tone.SynthOptions>;
 	let sliding = false;
 	export let multiple_alowed = false;
@@ -53,6 +54,8 @@
 	let contextmenuElement: HTMLUListElement;
 	let copiedColumn = true;
 	let longTimeout: NodeJS.Timeout;
+
+	let durationPopup: DurationPopup;
 </script>
 
 <svelte:body
@@ -60,6 +63,10 @@
 		sliding = false;
 		contextmenuElement.style.display = 'none';
 	}} />
+
+{#if browser}
+	<DurationPopup bind:this={durationPopup} />
+{/if}
 
 <ul class="context-menu" bind:this={contextmenuElement}>
 	<li>
@@ -86,7 +93,11 @@
 		column before
 	</li>
 	<hr />
-	<li>
+	<li
+		on:click={async () => {
+			console.log(await durationPopup.getDuration());
+		}}
+	>
 		<span class="iconify" data-icon="mdi:timer-outline" data-inline="false" />set column duration
 	</li>
 	<hr />
@@ -122,8 +133,6 @@
 							style={key.active ? `background: ${note.color};` : ''}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
 							on:mouseenter={(e) => {
-								console.log(e);
-
 								if (sliding && e.buttons === 1) {
 									toggle_key(ny, ky);
 								}

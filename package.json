@@ -29,7 +29,9 @@
 	},
 	"devDependencies": {
 		"@smui/button": "^4.0.0",
+		"@smui/dialog": "^4.2.0",
 		"@smui/fab": "^4.0.0",
+		"@smui/form-field": "^4.2.0",
 		"@smui/icon-button": "^4.0.0",
 		"@smui/list": "^4.1.0",
 		"@smui/paper": "^4.0.0",

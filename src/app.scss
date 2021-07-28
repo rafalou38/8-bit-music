@@ -25,3 +25,9 @@ html {
 * svg:focus {
 	outline: 0;
 }
+
+@font-face {
+	font-family: 'Notes';
+	src: url('/static/fonts/notes.woff') format('woff'), url('/static/fonts/notes.ttf') format('ttf'),
+		url('/static/fonts/notes.eot') format('eot'), url('/static/fonts/notes.svg') format('svg');
+}
