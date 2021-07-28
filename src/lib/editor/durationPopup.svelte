@@ -6,7 +6,7 @@
 	import Button, { Label } from '@smui/button';
 
 	let duration = 1;
-	let open = true;
+	let open = false;
 	let resolve: ((value: number | PromiseLike<number>) => void) | undefined;
 
 	export function getDuration(default_value?: number) {
