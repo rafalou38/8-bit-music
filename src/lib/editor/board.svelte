@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Labels from './labels.svelte';
-	import DurationPopup from './durationPopup.svelte';
+	import ContextMenu from './contextMenu.svelte';
 	import { uniqueID } from '$lib/helpers';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
@@ -39,79 +39,17 @@
 			return oldNotes;
 		});
 	}
-	function showContextMenu(
-		x: number,
-		y: number,
-		target: 'key' | 'note',
-		note?: INote,
-		ky?: number
-	) {
-		contextmenuElement.style.display = 'block';
-		contextmenuElement.style.left = x + 'px';
-		contextmenuElement.style.top = y + 'px';
-	}
-
-	let contextmenuElement: HTMLUListElement;
-	let copiedColumn = true;
 	let longTimeout: NodeJS.Timeout;
 
-	let durationPopup: DurationPopup;
+	let contextMenu: ContextMenu;
 </script>
 
 <svelte:body
 	on:mouseup={() => {
 		sliding = false;
-		contextmenuElement.style.display = 'none';
 	}} />
 
-{#if browser}
-	<DurationPopup bind:this={durationPopup} />
-{/if}
-
-<ul class="context-menu" bind:this={contextmenuElement}>
-	<li>
-		<span class="iconify" data-icon="mdi:content-copy" data-inline="false" />copy column
-	</li>
-	{#if copiedColumn}
-		<li>
-			<span class="iconify" data-icon="mdi:content-paste" data-inline="false" />paste column
-		</li>
-	{/if}
-	<li>
-		<span class="iconify" data-icon="mdi:content-duplicate" data-inline="false" />duplicate column
-	</li>
-	<hr />
-	<li>
-		<span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" /> remove column
-	</li>
-	<li>
-		<span class="iconify" data-icon="mdi:table-column-plus-after" data-inline="false" />insert
-		column after
-	</li>
-	<li>
-		<span class="iconify" data-icon="mdi:table-column-plus-before" data-inline="false" />insert
-		column before
-	</li>
-	<hr />
-	<li
-		on:click={async () => {
-			console.log(await durationPopup.getDuration());
-		}}
-	>
-		<span class="iconify" data-icon="mdi:timer-outline" data-inline="false" />set column duration
-	</li>
-	<hr />
-	<li><span class="iconify" data-icon="mdi:table-row-remove" data-inline="false" />remove note</li>
-	<li><span class="iconify" data-icon="mdi:wrench" data-inline="false" />edit note</li>
-	<hr />
-	<li>
-		<span class="iconify" data-icon="mdi:dice-3-outline" data-inline="false" />randomize board
-	</li>
-
-	<li style="color: crimson;">
-		<span class="iconify" data-icon="mdi:trash-can-outline" data-inline="false" />clear board
-	</li>
-</ul>
+<ContextMenu bind:this={contextMenu} />
 
 <div class="wrapper" style={`--key-progress: ${key_progess}%`}>
 	<Labels bind:loop {looping} {current_row} {setProgress} />
@@ -130,7 +68,8 @@
 						<td
 							class="board__cell board__cell--key"
 							class:board__cell--key--active={current_row == ky}
-							style={key.active ? `background: ${note.color};` : ''}
+							style={(key.active ? `background: ${note.color};` : '') +
+								`--duration: ${key.duration}`}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
 							on:mouseenter={(e) => {
 								if (sliding && e.buttons === 1) {
@@ -145,7 +84,7 @@
 							on:touchstart={(e) => {
 								longTimeout = setTimeout(
 									() =>
-										showContextMenu(e.touches[0]?.clientX, e.touches[0]?.clientY, 'key', note, ky),
+										contextMenu.open(e.touches[0]?.clientX, e.touches[0]?.clientY, 'key', note, ky),
 									500
 								);
 							}}
@@ -153,7 +92,7 @@
 								clearTimeout(longTimeout);
 							}}
 							on:contextmenu|preventDefault={(e) => {
-								showContextMenu(e.clientX, e.clientY, 'key', note, ky);
+								contextMenu.open(e.clientX, e.clientY, 'key', note, ky);
 							}}
 						/>{/each}
 				</tr>
@@ -195,7 +134,7 @@
 			display: inline-block;
 		}
 		&__cell {
-			width: 64px;
+			width: calc(64px * var(--duration, 1));
 			height: 64px;
 
 			box-shadow: inset -2px -2px 0px rgba(0, 0, 0, 0.25);
@@ -257,47 +196,6 @@
 				color: white;
 				flex-shrink: 0;
 			}
-		}
-	}
-	.context-menu {
-		position: fixed;
-		z-index: 100;
-
-		display: none;
-
-		min-width: 100px;
-		padding: 0;
-		margin: 0;
-
-		background-color: white;
-		border: thin solid rgba(83, 83, 83, 0.424);
-		border-radius: 0.25em;
-
-		list-style: none;
-		li {
-			display: flex;
-			align-items: center;
-
-			padding: 0.5em;
-
-			user-select: none;
-
-			font-family: 'Roboto';
-			&:last-child {
-				border-bottom: none;
-			}
-			&:hover {
-				background: rgba(83, 83, 83, 0.1);
-			}
-			.iconify {
-				margin-right: 0.5em;
-			}
-		}
-		hr {
-			height: 0;
-			margin: 5px 10px;
-			border: none;
-			border-bottom: inherit;
 		}
 	}
 </style>

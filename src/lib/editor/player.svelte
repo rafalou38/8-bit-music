@@ -45,10 +45,9 @@
 
 		synth?.triggerRelease(last_notes);
 	}
+	let target = 0;
 	function loop() {
 		if (playing) {
-			let target = 1 / speed;
-
 			let elapsed_seconds = (Date.now() - last_time) / 1000;
 			key_progess = Math.min(Math.max((elapsed_seconds / target) * 100, 0), 100);
 			if (elapsed_seconds >= target || last_time === undefined || paused) {
@@ -90,6 +89,7 @@
 
 				key_progess = 0;
 				paused = false;
+				target = ($notes[0]?.keys[current_row]?.duration || 1) / speed;
 			}
 		}
 	}

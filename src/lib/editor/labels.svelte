@@ -69,7 +69,7 @@
 	{#key looping}
 		{#key loop}
 			{#each $notes[0].keys as key, ky (key.id)}
-				<div class="goto__container">
+				<div class="goto__container" style={`--duration: ${key.duration}`}>
 					<button
 						class="goto__btn goto__btn--loop"
 						class:goto__btn--active={current_row == ky}
@@ -92,7 +92,7 @@
 			&:first-child {
 				margin-left: 64px;
 			}
-			width: 64px;
+			width: calc(64px * var(--duration, 1));
 			.goto__btn {
 				border: none;
 				width: $goto_width;
