@@ -31,6 +31,14 @@
 			});
 		});
 	}
+	async function resetColumnDuration() {
+		notes.update((oldNotes) => {
+			return oldNotes.map((note) => {
+				note.keys[selected.ky].duration = 1;
+				return note;
+			});
+		});
+	}
 
 	let contextmenuElement: HTMLUListElement;
 	let durationPopup: DurationPopup;
@@ -72,6 +80,10 @@
 	<hr />
 	<li on:click={setColumnDuration}>
 		<span class="iconify" data-icon="mdi:timer-outline" data-inline="false" />set column duration
+	</li>
+	<li on:click={resetColumnDuration}>
+		<span class="iconify" data-icon="mdi:timer-off-outline" data-inline="false" />reset column
+		duration
 	</li>
 	<hr />
 	<li><span class="iconify" data-icon="mdi:table-row-remove" data-inline="false" />remove note</li>
