@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/env';
 	import { notes } from '$lib/stores';
+	import { default_key } from '$lib/stores/notes';
 
 	import DurationPopup from './durationPopup.svelte';
 
@@ -58,6 +59,33 @@
 			});
 		});
 	}
+	async function insertCollumn(where: 'after' | 'before') {
+		notes.update((oldNotes) => {
+			return oldNotes.map((note) => {
+				if (context.target === 'key')
+					note.keys.splice(where == 'before' ? context.ky : context.ky + 1, 0, default_key());
+				if (context.target === 'keys')
+					context.selected.forEach((ky, i) => {
+						note.keys.splice(where == 'before' ? ky + i : ky + i + 1, 0, default_key());
+					});
+
+				return note;
+			});
+		});
+	}
+	async function removeCollumn() {
+		notes.update((oldNotes) => {
+			const newNotes = [...oldNotes];
+			return newNotes.map((note) => {
+				if (context.target === 'key') note.keys.splice(context.ky, 1);
+				if (context.target === 'keys')
+					context.selected.forEach((ky) => {
+						note.keys.splice(ky, 1);
+					});
+				return note;
+			});
+		});
+	}
 
 	let contextmenuElement: HTMLUListElement;
 	let durationPopup: DurationPopup;
@@ -94,17 +122,15 @@
 			: ''}
 	</li>
 	<hr />
-	<li>
-		<span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" /> remove column{context?.target ===
-		'keys'
-			? 's'
-			: ''}
+	<li on:click={removeCollumn}>
+		<span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" />
+		remove column{context?.target === 'keys' ? 's' : ''}
 	</li>
-	<li>
+	<li on:click={() => insertCollumn('after')}>
 		<span class="iconify" data-icon="mdi:table-column-plus-after" data-inline="false" />insert
 		column after
 	</li>
-	<li>
+	<li on:click={() => insertCollumn('before')}>
 		<span class="iconify" data-icon="mdi:table-column-plus-before" data-inline="false" />insert
 		column before
 	</li>
