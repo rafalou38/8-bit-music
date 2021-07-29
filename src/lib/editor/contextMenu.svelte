@@ -99,6 +99,8 @@
 			});
 		});
 	}
+
+	//  ==> ACTION
 	function duplicateCollumn() {
 		notes.update((oldNotes) => {
 			const newNotes = [...oldNotes];
@@ -146,6 +148,33 @@
 			});
 		}
 	}
+
+	//  ==> MISC
+	function randomize() {
+		notes.update((oldNotes) => {
+			oldNotes.forEach((note, ny) => {
+				oldNotes[ny].keys.forEach((key, ky) => {
+					oldNotes[ny].keys[ky].active = false;
+				});
+			});
+			for (let i = 0; i < oldNotes[0].keys.length; i++) {
+				oldNotes[Math.round(Math.random() * (oldNotes.length - 1))].keys[i].active = true;
+			}
+			return oldNotes;
+		});
+	}
+
+	function clear() {
+		notes.update((oldNotes) => {
+			oldNotes.forEach((note, ny) => {
+				oldNotes[ny].keys.forEach((key, ky) => {
+					oldNotes[ny].keys[ky].active = false;
+				});
+			});
+			return oldNotes;
+		});
+	}
+
 	let contextmenuElement: HTMLUListElement;
 	let durationPopup: DurationPopup;
 </script>
@@ -213,10 +242,11 @@
 	<li><span class="iconify" data-icon="mdi:table-row-remove" data-inline="false" />remove note</li>
 	<li><span class="iconify" data-icon="mdi:wrench" data-inline="false" />edit note</li>
 	<hr />
+	<li on:click={randomize} class="randomize">
 		<span class="iconify" data-icon="mdi:dice-3-outline" data-inline="false" />randomize board
 	</li>
 
-	<li style="color: crimson;">
+	<li on:click={clear} class="clear">
 		<span class="iconify" data-icon="mdi:trash-can-outline" data-inline="false" />clear board
 	</li>
 </ul>
@@ -261,6 +291,30 @@
 			margin: 5px 10px;
 			border: none;
 			border-bottom: inherit;
+		}
+		.randomize:hover {
+			background-image: linear-gradient(
+				to right,
+				hsla(0, 70%, 70%, 50%),
+				hsla(39, 70%, 70%, 50%),
+				hsla(60, 70%, 70%, 50%),
+				hsla(120, 70%, 70%, 50%),
+				hsla(240, 70%, 70%, 50%),
+				hsla(275, 70%, 70%, 50%),
+				hsla(300, 70%, 70%, 50%)
+			);
+
+			color: black;
+			.iconify {
+				color: black;
+			}
+		}
+		.clear {
+			color: crimson;
+			&:hover {
+				background-color: crimson;
+				color: white;
+			}
 		}
 	}
 </style>
