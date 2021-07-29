@@ -107,7 +107,11 @@
 							on:touchstart={(e) => {
 								longTimeout = setTimeout(
 									() =>
-										contextMenu.open(e.touches[0]?.clientX, e.touches[0]?.clientY, 'key', note, ky),
+										contextMenu.open(e.touches[0]?.clientX, e.touches[0]?.clientY, {
+											target: 'key',
+											note,
+											ky
+										}),
 									500
 								);
 							}}
@@ -115,7 +119,11 @@
 								clearTimeout(longTimeout);
 							}}
 							on:contextmenu|preventDefault={(e) => {
-								contextMenu.open(e.clientX, e.clientY, 'key', note, ky);
+								if (selected.length > 0) {
+									contextMenu.open(e.clientX, e.clientY, { target: 'keys', note, selected });
+								} else {
+									contextMenu.open(e.clientX, e.clientY, { target: 'key', note, ky });
+								}
 							}}
 						/>{/each}
 				</tr>

@@ -6,35 +6,54 @@
 
 	let copiedColumn = true;
 
-	let selected: {
-		target: 'key' | 'note';
-		note?: INote;
-		ky?: number;
-	};
+	let context:
+		| {
+				target: 'key';
+				note?: INote;
+				ky?: number;
+		  }
+		| {
+				target: 'keys';
+				selected?: number[];
+		  }
+		| {
+				target: 'note';
+				note?: INote;
+		  };
 
-	export function open(x: number, y: number, target: 'key' | 'note', note?: INote, ky?: number) {
+	export function open(x: number, y: number, new_context: any) {
+		console.log(new_context);
+
 		contextmenuElement.style.display = 'block';
 		contextmenuElement.style.left = x + 'px';
 		contextmenuElement.style.top = y + 'px';
-		selected = {
-			target,
-			note,
-			ky
-		};
+		context = new_context;
 	}
 	async function setColumnDuration() {
-		let new_duration = await durationPopup.getDuration($notes[0]?.keys[selected.ky]?.duration || 1);
+		let new_duration = await durationPopup.getDuration(
+			$notes[0]?.keys[context.target === 'key' ? context.ky : 0]?.duration || 1
+		);
 		notes.update((oldNotes) => {
 			return oldNotes.map((note) => {
-				note.keys[selected.ky].duration = new_duration;
+				if (context.target == 'key') note.keys[context.ky].duration = new_duration;
+				if (context.target == 'keys')
+					context.selected.forEach((ky) => {
+						note.keys[ky].duration = new_duration;
+					});
 				return note;
 			});
 		});
 	}
+
 	async function resetColumnDuration() {
 		notes.update((oldNotes) => {
 			return oldNotes.map((note) => {
-				note.keys[selected.ky].duration = 1;
+				if (context.target === 'key') note.keys[context.ky].duration = 1;
+				if (context.target === 'keys')
+					context.selected.forEach((ky) => {
+						note.keys[ky].duration = 1;
+					});
+
 				return note;
 			});
 		});
@@ -55,19 +74,31 @@
 
 <ul class="context-menu" bind:this={contextmenuElement}>
 	<li>
-		<span class="iconify" data-icon="mdi:content-copy" data-inline="false" />copy column
+		<span class="iconify" data-icon="mdi:content-copy" data-inline="false" />copy column{context?.target ===
+		'keys'
+			? 's'
+			: ''}
 	</li>
 	{#if copiedColumn}
 		<li>
-			<span class="iconify" data-icon="mdi:content-paste" data-inline="false" />paste column
+			<span class="iconify" data-icon="mdi:content-paste" data-inline="false" />paste column{context?.target ===
+			'keys'
+				? 's'
+				: ''}
 		</li>
 	{/if}
 	<li>
-		<span class="iconify" data-icon="mdi:content-duplicate" data-inline="false" />duplicate column
+		<span class="iconify" data-icon="mdi:content-duplicate" data-inline="false" />duplicate column{context?.target ===
+		'keys'
+			? 's'
+			: ''}
 	</li>
 	<hr />
 	<li>
-		<span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" /> remove column
+		<span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" /> remove column{context?.target ===
+		'keys'
+			? 's'
+			: ''}
 	</li>
 	<li>
 		<span class="iconify" data-icon="mdi:table-column-plus-after" data-inline="false" />insert
@@ -79,10 +110,16 @@
 	</li>
 	<hr />
 	<li on:click={setColumnDuration}>
-		<span class="iconify" data-icon="mdi:timer-outline" data-inline="false" />set column duration
+		<span class="iconify" data-icon="mdi:timer-outline" data-inline="false" />set column{context?.target ===
+		'keys'
+			? 's'
+			: ''} duration
 	</li>
 	<li on:click={resetColumnDuration}>
-		<span class="iconify" data-icon="mdi:timer-off-outline" data-inline="false" />reset column
+		<span class="iconify" data-icon="mdi:timer-off-outline" data-inline="false" />reset column{context?.target ===
+		'keys'
+			? 's'
+			: ''}
 		duration
 	</li>
 	<hr />
