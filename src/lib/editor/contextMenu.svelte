@@ -5,13 +5,14 @@
 	import { default_key } from '$lib/stores/notes';
 
 	import DurationPopup from './durationPopup.svelte';
+	import NoteEditPopup from './noteEditPopup.svelte';
 
 	let copiedCollumns: IKey[][] = [];
 
 	type Context =
 		| {
 				target: 'key';
-				note?: INote;
+				ny?: number;
 				ky?: number;
 		  }
 		| {
@@ -20,7 +21,7 @@
 		  }
 		| {
 				target: 'note';
-				note?: INote;
+				ny?: number;
 		  };
 	let context: Context;
 
@@ -181,22 +182,20 @@
 			$notes.splice(context.ky, 1);
 		}
 	}
-	function editNote() {
+	async function editNote() {
 		if (context.target === 'key') {
-			const ky = context.ky;
-			notes.update((oldNotes) => {
-				oldNotes.splice(ky, 1);
-				return oldNotes;
-			});
+			$notes[context.ny] = await noteEditPopup.editNote($notes[context.ny]);
 		}
 	}
 
 	let contextmenuElement: HTMLUListElement;
 	let durationPopup: DurationPopup;
+	let noteEditPopup: NoteEditPopup;
 </script>
 
 {#if browser}
 	<DurationPopup bind:this={durationPopup} />
+	<NoteEditPopup bind:this={noteEditPopup} />
 {/if}
 
 <svelte:body

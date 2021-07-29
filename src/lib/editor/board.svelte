@@ -109,7 +109,7 @@
 									() =>
 										contextMenu.open(e.touches[0]?.clientX, e.touches[0]?.clientY, {
 											target: 'key',
-											note,
+											ny,
 											ky
 										}),
 									500
@@ -122,7 +122,7 @@
 								if (selected.length > 0) {
 									contextMenu.open(e.clientX, e.clientY, { target: 'keys', selected });
 								} else {
-									contextMenu.open(e.clientX, e.clientY, { target: 'key', note, ky });
+									contextMenu.open(e.clientX, e.clientY, { target: 'key', ny, ky });
 								}
 							}}
 						/>{/each}
