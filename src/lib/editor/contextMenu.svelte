@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { browser } from '$app/env';
+	import { uniqueID } from '$lib/helpers';
 	import { notes } from '$lib/stores';
 	import { default_key } from '$lib/stores/notes';
 
 	import DurationPopup from './durationPopup.svelte';
 
-	let copiedColumn = true;
+	let copiedCollumns: IKey[][] = [];
 
-	let context:
+	type Context =
 		| {
 				target: 'key';
 				note?: INote;
@@ -21,15 +22,25 @@
 				target: 'note';
 				note?: INote;
 		  };
+	let context: Context;
 
-	export function open(x: number, y: number, new_context: any) {
-		console.log(new_context);
+	function hasHoles(list: number[]) {
+		for (let i = 0; i < list.length; i++) {
+			if (list[i + 1] !== undefined && list[i] !== list[i + 1] - 1) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	export function open(x: number, y: number, new_context: Context) {
 		contextmenuElement.style.display = 'block';
 		contextmenuElement.style.left = x + 'px';
 		contextmenuElement.style.top = y + 'px';
 		context = new_context;
 	}
+
+	// ==> DURATION
 	async function setColumnDuration() {
 		let new_duration = await durationPopup.getDuration(
 			$notes[0]?.keys[context.target === 'key' ? context.ky : 0]?.duration || 1
@@ -59,6 +70,8 @@
 			});
 		});
 	}
+
+	// ==> COLLUMNS EDIT
 	async function insertCollumn(where: 'after' | 'before') {
 		notes.update((oldNotes) => {
 			return oldNotes.map((note) => {
@@ -86,7 +99,53 @@
 			});
 		});
 	}
-
+	function duplicateCollumn() {
+		notes.update((oldNotes) => {
+			const newNotes = [...oldNotes];
+			return newNotes.map((note) => {
+				if (context.target === 'key')
+					note.keys.splice(context.ky, 0, { ...note.keys[context.ky], id: uniqueID() });
+				if (context.target === 'keys') {
+					const selected = context.selected;
+					selected.forEach((ky) => {
+						note.keys.splice(ky + selected.length, 0, { ...note.keys[ky], id: uniqueID() });
+					});
+				}
+				return note;
+			});
+		});
+	}
+	function copyCollumn() {
+		copiedCollumns = [];
+		if (context.target === 'key') {
+			const ky = context.ky;
+			const collumn = $notes.reduce((acc, note) => {
+				acc.push(note.keys[ky]);
+				return acc;
+			}, []);
+			copiedCollumns.push(collumn);
+		} else if (context.target == 'keys') {
+			context.selected.forEach((ky) => {
+				const collumn = $notes.reduce((acc, note) => {
+					acc.push(note.keys[ky]);
+					return acc;
+				}, []);
+				copiedCollumns.push(collumn);
+			});
+		}
+	}
+	function pasteCollumn() {
+		if (context.target === 'key') {
+			const ky = context.ky;
+			$notes = $notes.map((note, ny) => {
+				const keys = copiedCollumns.map((collumn) => {
+					return { ...collumn[ny], id: uniqueID() };
+				});
+				note.keys.splice(ky + 1, 0, ...keys);
+				return note;
+			});
+		}
+	}
 	let contextmenuElement: HTMLUListElement;
 	let durationPopup: DurationPopup;
 </script>
@@ -101,26 +160,28 @@
 	}} />
 
 <ul class="context-menu" bind:this={contextmenuElement}>
-	<li>
+	<li on:click={copyCollumn}>
 		<span class="iconify" data-icon="mdi:content-copy" data-inline="false" />copy column{context?.target ===
 		'keys'
 			? 's'
 			: ''}
 	</li>
-	{#if copiedColumn}
-		<li>
+	{#if copiedCollumns.length > 0}
+		<li on:click={pasteCollumn}>
 			<span class="iconify" data-icon="mdi:content-paste" data-inline="false" />paste column{context?.target ===
 			'keys'
 				? 's'
 				: ''}
 		</li>
 	{/if}
-	<li>
-		<span class="iconify" data-icon="mdi:content-duplicate" data-inline="false" />duplicate column{context?.target ===
-		'keys'
-			? 's'
-			: ''}
-	</li>
+	{#if context?.target === 'key' || (context?.target === 'keys' && !hasHoles(context?.selected))}
+		<li on:click={duplicateCollumn}>
+			<span class="iconify" data-icon="mdi:content-duplicate" data-inline="false" />duplicate column{context?.target ===
+			'keys'
+				? 's'
+				: ''}
+		</li>
+	{/if}
 	<hr />
 	<li on:click={removeCollumn}>
 		<span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" />
@@ -152,7 +213,6 @@
 	<li><span class="iconify" data-icon="mdi:table-row-remove" data-inline="false" />remove note</li>
 	<li><span class="iconify" data-icon="mdi:wrench" data-inline="false" />edit note</li>
 	<hr />
-	<li>
 		<span class="iconify" data-icon="mdi:dice-3-outline" data-inline="false" />randomize board
 	</li>
 
