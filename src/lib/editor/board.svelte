@@ -246,20 +246,20 @@
 		// position: absolute;
 		height: 12px;
 		margin-top: -10px;
-		transform: scaleX(1.1);
 		box-sizing: border-box;
 		background: transparent;
-		border-radius: 4px;
+		flex-grow: 0;
+		flex-shrink: 0;
 		&.selected {
 			border: 4px solid deepskyblue;
-			border-top-color: transparent;
-			border-left-color: transparent;
-			border-right-color: transparent;
+			border-top: none;
+			border-left: none;
+			border-right: none;
 			&.left {
-				border-left-color: deepskyblue;
+				border-left: 4px solid deepskyblue;
 			}
 			&.right {
-				border-right-color: deepskyblue;
+				border-right: 4px solid deepskyblue;
 			}
 		}
 	}
