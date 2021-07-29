@@ -71,6 +71,12 @@
 			});
 		});
 	}
+	async function reverse() {
+		notes.update((oldNotes) => {
+			oldNotes.reverse();
+			return oldNotes;
+		});
+	}
 
 	// ==> COLLUMNS EDIT
 	async function insertCollumn(where: 'after' | 'before') {
@@ -261,6 +267,10 @@
 		<span class="iconify" data-icon="mdi:wrench" data-inline="false" />edit note
 	</li>
 	<hr />
+	<li on:click={reverse}>
+		<span class="iconify" data-icon="mdi:table-refresh" data-inline="false" />reverse notes order
+	</li>
+
 	<li on:click={randomize} class="randomize">
 		<span class="iconify" data-icon="mdi:dice-3-outline" data-inline="false" />randomize board
 	</li>
