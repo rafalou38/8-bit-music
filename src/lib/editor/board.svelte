@@ -120,7 +120,7 @@
 							}}
 							on:contextmenu|preventDefault={(e) => {
 								if (selected.length > 0) {
-									contextMenu.open(e.clientX, e.clientY, { target: 'keys', note, selected });
+									contextMenu.open(e.clientX, e.clientY, { target: 'keys', selected });
 								} else {
 									contextMenu.open(e.clientX, e.clientY, { target: 'key', note, ky });
 								}
