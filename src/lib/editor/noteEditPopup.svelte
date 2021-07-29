@@ -3,7 +3,6 @@
 	import Dialog, { Title, Content, Actions, InitialFocus } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 	import { uniqueID } from '$lib/helpers';
-	import { isNumber } from 'tone';
 
 	let open = false;
 	let resolve: ((value: INote | PromiseLike<INote>) => void) | undefined;
@@ -51,7 +50,7 @@
 	<Content id="slider-content">
 		<Textfield variant="outlined" bind:value={note.label} label="Note label" />
 
-		{#if isNumber(note.note)}
+		{#if typeof note.note === 'number'}
 			<Textfield variant="outlined" bind:value={note.note} type="number" label="Note label" />
 		{:else}
 			<Textfield variant="outlined" bind:value={note.note} label="Note label" />
