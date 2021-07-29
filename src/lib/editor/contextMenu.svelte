@@ -175,6 +175,22 @@
 		});
 	}
 
+	//   ==> NOTES
+	function removeNote() {
+		if (context.target === 'key') {
+			$notes.splice(context.ky, 1);
+		}
+	}
+	function editNote() {
+		if (context.target === 'key') {
+			const ky = context.ky;
+			notes.update((oldNotes) => {
+				oldNotes.splice(ky, 1);
+				return oldNotes;
+			});
+		}
+	}
+
 	let contextmenuElement: HTMLUListElement;
 	let durationPopup: DurationPopup;
 </script>
@@ -239,8 +255,12 @@
 		duration
 	</li>
 	<hr />
-	<li><span class="iconify" data-icon="mdi:table-row-remove" data-inline="false" />remove note</li>
-	<li><span class="iconify" data-icon="mdi:wrench" data-inline="false" />edit note</li>
+	<li on:click={removeNote}>
+		<span class="iconify" data-icon="mdi:table-row-remove" data-inline="false" />remove note
+	</li>
+	<li on:click={editNote}>
+		<span class="iconify" data-icon="mdi:wrench" data-inline="false" />edit note
+	</li>
 	<hr />
 	<li on:click={randomize} class="randomize">
 		<span class="iconify" data-icon="mdi:dice-3-outline" data-inline="false" />randomize board
