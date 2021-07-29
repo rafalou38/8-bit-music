@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import * as Tone from 'tone';
-	import { keys_count, notes } from '$lib/stores';
+	import { addKey, notes } from '$lib/stores';
 	import { browser } from '$app/env';
 	let synth: Tone.Synth<Tone.SynthOptions>;
 	let sliding = false;
@@ -134,7 +134,7 @@
 			<div
 				class="board__cell__label"
 				on:click={() => {
-					keys_count.update((keys_count_) => keys_count_ + 1);
+					addKey();
 				}}
 			>
 				+

@@ -1,2 +1,2 @@
-export { keys_count, notes } from './notes';
+export { notes, addKey } from './notes';
 export { sessionStore } from './session';

@@ -16,7 +16,8 @@
 	import ToolBar from '$lib/editor/toolBar.svelte';
 	import Player from '$lib/editor/player.svelte';
 	import { map, uniqueID } from '$lib/helpers';
-	import { keys_count, notes } from '$lib/stores';
+	import { addKey, notes } from '$lib/stores';
+	import { default_key } from '$lib/stores/notes';
 
 	let multiple_alowed = false;
 	let current_row = -1;
@@ -33,8 +34,6 @@
 	export let decoded_notes: INote[] | undefined = undefined;
 
 	if (decoded_notes) {
-		keys_count.set(decoded_notes[0]?.keys.length);
-
 		notes.set(decoded_notes);
 	}
 	notes.update((notes_) => {
@@ -46,7 +45,7 @@
 				note: note,
 				id: uniqueID(),
 				color: `hsl(${map(i, 0, rawNotes.length, 0, 360)}, 100%, 71%)`,
-				keys: []
+				keys: Array(5).fill(null).map(default_key)
 			});
 			return acc;
 		}, []);
@@ -84,9 +83,9 @@
 				EPlayer?.play();
 			}
 		} else if (event.key === '+') {
-			keys_count.update((old) => old + 1);
+			addKey();
 		}
-		current_row = Math.min(Math.max(current_row, -1), $keys_count);
+		current_row = Math.min(Math.max(current_row, -1), $notes[0]?.keys.length);
 	}
 </script>
 

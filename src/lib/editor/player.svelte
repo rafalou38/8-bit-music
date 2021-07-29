@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script lang="ts">
-	import { keys_count, notes } from '$lib/stores';
+	import { notes } from '$lib/stores';
 
 	import { onDestroy, onMount } from 'svelte';
 
@@ -56,7 +56,7 @@
 				}
 
 				if (
-					current_row >= $keys_count ||
+					current_row >= $notes[0]?.keys.length ||
 					(looping && loop_positions[1] && current_row >= loop_positions[1] + 1)
 				) {
 					if (!looping) {
