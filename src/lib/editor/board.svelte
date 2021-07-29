@@ -39,12 +39,27 @@
 			return oldNotes;
 		});
 	}
+
+	let selected = [0, 1, 3];
+	function toggleSelection(ky: number) {
+		let newSelected = [...selected];
+		if (selected.includes(ky)) {
+			newSelected = newSelected.filter((e) => e !== ky);
+		} else {
+			newSelected.push(ky);
+		}
+		selected = newSelected.sort();
+	}
+
 	let longTimeout: NodeJS.Timeout;
 
 	let contextMenu: ContextMenu;
 </script>
 
 <svelte:body
+	on:mousedown={(e) => {
+		if (!e.ctrlKey && e.button !== 2) selected = [];
+	}}
 	on:mouseup={() => {
 		sliding = false;
 	}} />
@@ -54,7 +69,11 @@
 <div class="wrapper" style={`--key-progress: ${key_progess}%`}>
 	<Labels bind:loop {looping} {current_row} {setProgress} />
 	<table class="board" cellspacing="0" cellpadding="0">
-		<tbody on:mousedown={() => (sliding = true)}>
+		<tbody
+			on:mousedown={(e) => {
+				sliding = true;
+			}}
+		>
 			{#each $notes as note, ny (note.id)}
 				<tr>
 					<th
@@ -71,13 +90,17 @@
 							style={(key.active ? `background: ${note.color};` : '') +
 								`--duration: ${key.duration}`}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
+							on:mousedown={(e) => {
+								if (e.ctrlKey) return toggleSelection(ky);
+							}}
 							on:mouseenter={(e) => {
+								if (e.ctrlKey && sliding) return toggleSelection(ky);
 								if (sliding && e.buttons === 1) {
 									toggle_key(ny, ky);
 								}
 							}}
 							on:mouseup={(e) => {
-								if (e.button === 0) {
+								if (e.button === 0 && !e.ctrlKey) {
 									toggle_key(ny, ky);
 								}
 							}}
@@ -110,6 +133,17 @@
 			</div>
 		</div>
 	</table>
+	<div class="selection-container">
+		{#each $notes[0]?.keys as key, ky}
+			<div
+				class="selection"
+				class:selected={selected.includes(ky)}
+				class:left={!selected.includes(ky - 1)}
+				class:right={!selected.includes(ky + 1)}
+				style={`width: ${64 * key.duration}px;`}
+			/>
+		{/each}
+	</div>
 	<div class="board__cell board__cell--round">
 		<div class="board__cell__label">+</div>
 	</div>
@@ -195,6 +229,37 @@
 				box-sizing: border-box;
 				color: white;
 				flex-shrink: 0;
+			}
+		}
+	}
+	.selection-container {
+		position: relative;
+		display: flex;
+
+		padding-left: 64px;
+		width: 100%;
+		height: 10px;
+		// opacity: 0;
+		pointer-events: none;
+	}
+	.selection {
+		// position: absolute;
+		height: 12px;
+		margin-top: -10px;
+		transform: scaleX(1.1);
+		box-sizing: border-box;
+		background: transparent;
+		border-radius: 4px;
+		&.selected {
+			border: 4px solid deepskyblue;
+			border-top-color: transparent;
+			border-left-color: transparent;
+			border-right-color: transparent;
+			&.left {
+				border-left-color: deepskyblue;
+			}
+			&.right {
+				border-right-color: deepskyblue;
 			}
 		}
 	}
