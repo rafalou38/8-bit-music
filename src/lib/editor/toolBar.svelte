@@ -19,17 +19,8 @@
 <svelte:body on:touchstart />
 
 <div class="wrapper">
-	<button on:click={() => onAction?.('add')}
-		><span class="iconify" data-icon="mdi:table-column-plus-after" data-inline="false" /></button
-	>
-	<button on:click={() => onAction?.('delete')}
-		><span class="iconify" data-icon="mdi:table-column-remove" data-inline="false" /></button
-	>
-	<button on:click={() => onAction?.('settings')}
-		><span class="iconify" data-icon="mdi:cog" data-inline="false" /></button
-	>
 	<div class="dropdown__container">
-		<button on:click={() => (dropdown_visible = !dropdown_visible)}
+		<button on:click={() => (dropdown_visible = !dropdown_visible)} title="set music speed"
 			><span class="iconify" data-icon="mdi:clock-time-four-outline" data-inline="false" /></button
 		>
 		<div class="dropdown__body" class:dropdown_visible>
@@ -46,10 +37,10 @@
 			>
 		</div>
 	</div>
-	<button on:click={() => onAction?.('undo')}
+	<button on:click={() => onAction?.('undo')} title="undo changes (ctrl+Z)"
 		><span class="iconify" data-icon="mdi:undo" data-inline="false" /></button
 	>
-	<button on:click={() => onAction?.('redo')}
+	<button on:click={() => onAction?.('redo')} title="redo changes (ctrl+Y) or (ctrl+shift+Z)"
 		><span class="iconify" data-icon="mdi:redo" data-inline="false" /></button
 	>
 	<span class="divider" />
@@ -59,6 +50,7 @@
 			playing = !playing;
 			onAction?.(playing ? 'play' : 'pause');
 		}}
+		title={(playing ? 'play' : 'pause') + ' the music (SPACE)'}
 	>
 		{#if playing}
 			<svg
@@ -93,7 +85,11 @@
 		{/if}
 		<!-- <span class="iconify" data-icon={playing ? 'mdi:play' : 'mdi:pause'} data-inline="false" /> -->
 	</button>
-	<button on:click={() => (looping = !looping)} class:active={looping}>
+	<button
+		on:click={() => (looping = !looping)}
+		class:active={looping}
+		title={(looping ? 'disable' : 'enable') + ' looping'}
+	>
 		{#if looping}
 			<svg
 				xmlns="http://www.w3.org/2000/svg"

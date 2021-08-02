@@ -27,8 +27,8 @@
 		</main>
 	</div>
 </div>
-<a href="/editor/new" class="add-fab">
-	<Fab color="primary">
+<a href="/editor/new" class="add-fab" title="create a new song">
+	<Fab color="primary" title="create a new song">
 		<Icon component={Svg} viewBox="4 4 16 16"><path fill="currentColor" d={mdiPlus} /></Icon>
 	</Fab>
 </a>

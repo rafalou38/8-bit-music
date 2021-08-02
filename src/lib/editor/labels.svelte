@@ -75,6 +75,7 @@
 						class:goto__btn--active={current_row == ky}
 						use:loopAction={ky}
 						on:click={(e) => handleLabelClick(e, ky)}
+						title={`start playing on collumn n°${ky + 1}`}
 					/>
 				</div>
 			{/each}
