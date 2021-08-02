@@ -58,7 +58,7 @@
 
 <svelte:body
 	on:mousedown={(e) => {
-		if (!e.ctrlKey && e.button !== 2) selected = [];
+		if (!(e.ctrlKey || e.shiftKey) && e.button !== 2) selected = [];
 	}}
 	on:mouseup={() => {
 		sliding = false;
@@ -91,16 +91,16 @@
 								`--duration: ${key.duration}`}
 							in:fly={{ x: -20, duration: 100, delay: ky * 5 }}
 							on:mousedown={(e) => {
-								if (e.ctrlKey) return toggleSelection(ky);
+								if (e.ctrlKey || e.shiftKey) return toggleSelection(ky);
 							}}
 							on:mouseenter={(e) => {
-								if (e.ctrlKey && sliding) return toggleSelection(ky);
+								if ((e.ctrlKey || e.shiftKey) && sliding) return toggleSelection(ky);
 								if (sliding && e.buttons === 1) {
 									toggle_key(ny, ky);
 								}
 							}}
 							on:mouseup={(e) => {
-								if (e.button === 0 && !e.ctrlKey) {
+								if (e.button === 0 && !(e.ctrlKey || e.shiftKey)) {
 									toggle_key(ny, ky);
 								}
 							}}
@@ -199,6 +199,10 @@
 				filter: brightness(140%);
 			}
 			&--note {
+				position: sticky;
+				left: 0;
+				z-index: 1;
+
 				background-color: #263238;
 				font-size: 1.5em;
 				font-weight: 400;
@@ -241,12 +245,13 @@
 		}
 	}
 	.selection-container {
-		position: relative;
+		position: sticky;
+		bottom: 0;
 		display: flex;
 
 		padding-left: 64px;
 		width: 100%;
-		height: 10px;
+		//height: 10px;
 		// opacity: 0;
 		pointer-events: none;
 	}
