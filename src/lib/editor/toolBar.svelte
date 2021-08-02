@@ -5,7 +5,9 @@
 	export let looping = false;
 	export let speed = 1;
 	export let onAction:
-		| ((action: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') => void)
+		| ((
+				action: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause' | 'undo' | 'redo'
+		  ) => void)
 		| undefined;
 	let inteval: NodeJS.Timeout;
 	function normalize(i: number) {
@@ -44,6 +46,12 @@
 			>
 		</div>
 	</div>
+	<button on:click={() => onAction?.('undo')}
+		><span class="iconify" data-icon="mdi:undo" data-inline="false" /></button
+	>
+	<button on:click={() => onAction?.('redo')}
+		><span class="iconify" data-icon="mdi:redo" data-inline="false" /></button
+	>
 	<span class="divider" />
 	<button
 		class:active={playing}

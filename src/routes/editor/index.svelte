@@ -16,7 +16,7 @@
 	import ToolBar from '$lib/editor/toolBar.svelte';
 	import Player from '$lib/editor/player.svelte';
 	import { map, uniqueID } from '$lib/helpers';
-	import { addKey, notes } from '$lib/stores';
+	import { addKey, notes, redoChanges, undoChanges } from '$lib/stores';
 	import { default_key } from '$lib/stores/notes';
 
 	let multiple_alowed = false;
@@ -54,13 +54,19 @@
 	let EToolBar: ToolBar;
 	let EPlayer: Player;
 
-	function handleAction(actionType: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause') {
+	function handleAction(
+		actionType: 'add' | 'delete' | 'settings' | 'clock' | 'play' | 'pause' | 'undo' | 'redo'
+	) {
 		if (actionType == 'play') {
 			EPlayer?.play();
 		} else if (actionType == 'pause') {
 			EPlayer?.pause();
 		} else if (actionType == 'clock') {
 			speed = parseFloat(prompt('new speed', speed.toString()));
+		} else if (actionType == 'undo') {
+			undoChanges();
+		} else if (actionType == 'redo') {
+			redoChanges();
 		}
 	}
 	function handleShortcut(event: KeyboardEvent & { currentTarget: EventTarget & HTMLElement }) {
@@ -84,6 +90,13 @@
 			}
 		} else if (event.key === '+') {
 			addKey();
+		} else if (
+			(event.key === 'y' && event.ctrlKey) ||
+			(event.key === 'Z' && event.ctrlKey && event.shiftKey)
+		) {
+			redoChanges();
+		} else if (event.key === 'z' && event.ctrlKey) {
+			undoChanges();
 		}
 		current_row = Math.min(Math.max(current_row, -1), $notes[0]?.keys.length);
 	}
