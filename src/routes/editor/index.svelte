@@ -6,7 +6,7 @@
 		const encoded_notes: string | null = page.query.get('notes');
 		if (encoded_notes === null) return {};
 
-		const decoded = decode(encoded_notes.replace(/\s+/g, '+'));
+		const decoded = decode(encoded_notes.replace(/\s+/g, '+').replace(/\$/g, '#'));
 		return { props: { decoded_notes: decoded.data } };
 	};
 </script>

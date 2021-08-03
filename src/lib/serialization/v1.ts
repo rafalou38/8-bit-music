@@ -74,7 +74,8 @@ export function encode(notes: INote[]): string {
 	);
 
 	return encodeURI(
-		version + d.join('-').replace(/\[/gm, '(').replace(/\]/gm, ')').replace(/"/gm, "'")
+		version +
+			d.join('-').replace(/\[/gm, '(').replace(/\]/gm, ')').replace(/"/gm, "'").replace(/#/gm, '$')
 	);
 }
 export function decode(encoded: string): INote[] {
