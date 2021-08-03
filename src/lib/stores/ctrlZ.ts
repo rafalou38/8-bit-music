@@ -18,7 +18,6 @@ notes.subscribe(async (newNotes) => {
 			changes.splice(0, 5);
 		}
 		changeIndex = changes.length - 1;
-		console.log({ changeIndex, changes });
 	}
 });
 

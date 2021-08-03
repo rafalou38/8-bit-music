@@ -19,21 +19,11 @@
 		}
 	}
 	function dragleave(event: DragEvent & { currentTarget: EventTarget & HTMLDivElement }) {
-		// for (let index = 0; index < event.dataTransfer.items.length; ++index) {
-		// 	let item = event.dataTransfer.items[index];
-		// 	console.log({ item, file: item.getAsFile() });
-		// }
 		if ((event.relatedTarget as HTMLInputElement)?.tagName?.toLowerCase() !== 'input') {
-			// Use DataTransferItemList interface to access the file(s)
 			dragging = false;
 		}
 	}
 	function drop(event: DragEvent & { currentTarget: EventTarget & HTMLDivElement }) {
-		// for (let index = 0; index < event.dataTransfer.items.length; ++index) {
-		// 	let item = event.dataTransfer.items[index];
-		// 	console.log({ item, file: item.getAsFile() });
-		// }
-		console.log(event.dataTransfer.files[0]);
 		files = event.dataTransfer.files;
 	}
 
@@ -73,7 +63,6 @@
 				decode(encoded);
 				let url = document.URL.replace('/import', '?notes=' + encoded);
 				window.open(url, '_blank');
-				console.log(url);
 				notes = [];
 				durations = [];
 				totalDuration = 0;
@@ -130,8 +119,6 @@
 			});
 		});
 		$noteStore = notes;
-		console.log(notes);
-
 		goto('/editor');
 	}
 
