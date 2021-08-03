@@ -30,6 +30,8 @@ const config = {
 					'@smui/dialog',
 					'@smui/form-field',
 					'@smui/linear-progress',
+					'@smui/switch',
+					'@smui/radio',
 				]
 			}
 		}

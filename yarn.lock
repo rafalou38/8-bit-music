@@ -276,6 +276,21 @@
   dependencies:
     tslib "^2.1.0"
 
+"@material/radio@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@material/radio/-/radio-11.0.0.tgz#0686e94d57ba3ebdb856d7d263c1e21b89fa2ba4"
+  integrity sha512-smbW+ccgoGr6CW0Jjk+DZgIwZjVmeNONAJX9lTxSvmxZVgJ/3BVizY8Mwl4r1j4Y9jZj2ZPoAg8D1G6wVxO6ig==
+  dependencies:
+    "@material/animation" "^11.0.0"
+    "@material/base" "^11.0.0"
+    "@material/density" "^11.0.0"
+    "@material/dom" "^11.0.0"
+    "@material/feature-targeting" "^11.0.0"
+    "@material/ripple" "^11.0.0"
+    "@material/theme" "^11.0.0"
+    "@material/touch-target" "^11.0.0"
+    tslib "^2.1.0"
+
 "@material/ripple@^11.0.0":
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/@material/ripple/-/ripple-11.0.0.tgz#a4eb7cd1627b30ac929fbece345076adc4b82805"
@@ -325,6 +340,22 @@
   integrity sha512-O9/Dt/9Nbum1IvxRd4u8gCF4ghk9E55UNp2TGe+RN43zpTUbChh2raOFr3sQeRwLIzlb4wstUG9AxmdktrkDUQ==
   dependencies:
     "@material/feature-targeting" "^11.0.0"
+    "@material/rtl" "^11.0.0"
+    "@material/theme" "^11.0.0"
+    tslib "^2.1.0"
+
+"@material/switch@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@material/switch/-/switch-11.0.0.tgz#46c43259522e98401cc071171064db56792c7187"
+  integrity sha512-xrEMHtVhDJBXSAKnYubWSFJ0Yo+W6Yi1C9xcS5jqSU2G1FoxKiOWIcM8actlcHqspMC7AWh7fDz8LJVpugGctw==
+  dependencies:
+    "@material/animation" "^11.0.0"
+    "@material/base" "^11.0.0"
+    "@material/density" "^11.0.0"
+    "@material/dom" "^11.0.0"
+    "@material/elevation" "^11.0.0"
+    "@material/feature-targeting" "^11.0.0"
+    "@material/ripple" "^11.0.0"
     "@material/rtl" "^11.0.0"
     "@material/theme" "^11.0.0"
     tslib "^2.1.0"
@@ -569,10 +600,27 @@
     "@material/typography" "^11.0.0"
     "@smui/common" "^4.1.0"
 
+"@smui/radio@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/radio/-/radio-4.2.0.tgz#c91c6dec6d1a1ffebf26538d68ae1413dcbbe6c1"
+  integrity sha512-gQiVUNEexQ0H6N6GWY4r1rhHjWlBN+N4eNWTOa5OM2t8sCSVYpQiwI6WK/Ws63vLPY3VaUzbZrfssFl1+iHmpQ==
+  dependencies:
+    "@material/radio" "^11.0.0"
+    "@smui/common" "^4.2.0"
+    "@smui/ripple" "^4.2.0"
+
 "@smui/ripple@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@smui/ripple/-/ripple-4.1.0.tgz#a5d3a3d6ef5930d48b0f44e4eb11ebbaeb1d0803"
   integrity sha512-AjvX3lDldej2PvtRIeyqiOxzEIUyR1wh79eS2dF01Kvo+SAZVpMGk9zJg27ohyXKhnhWDRsFLfH4mSqkU+wJnw==
+  dependencies:
+    "@material/dom" "^11.0.0"
+    "@material/ripple" "^11.0.0"
+
+"@smui/ripple@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/ripple/-/ripple-4.2.0.tgz#cde00f50393094658b32965569c6758274b24154"
+  integrity sha512-oTaPC/6FAYwifth9AvkUuIC5SenMPITg1yZSdD9B1Wcgi2NRAWuMDV2j6Kc+yYgv6iUCKlQ26fCxK2xmYwqhug==
   dependencies:
     "@material/dom" "^11.0.0"
     "@material/ripple" "^11.0.0"
@@ -595,6 +643,16 @@
     "@smui/menu-surface" "^4.1.0"
     "@smui/notched-outline" "^4.1.0"
     "@smui/ripple" "^4.1.0"
+
+"@smui/switch@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/switch/-/switch-4.2.0.tgz#937a47a651a1b758e4eacfbcd089fd89851a6922"
+  integrity sha512-PZPPtLku+RsQsbdLbpqyLcpM314F1f37TdyNfgPz4sGE32o7jkkldbMzNaWSlr3eoUo6BkEXs5hrDpPMpe6Ciw==
+  dependencies:
+    "@material/density" "^11.0.0"
+    "@material/switch" "^11.0.0"
+    "@smui/common" "^4.2.0"
+    "@smui/ripple" "^4.2.0"
 
 "@smui/textfield@^4.0.0":
   version "4.1.0"

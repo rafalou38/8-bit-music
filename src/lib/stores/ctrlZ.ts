@@ -11,9 +11,7 @@ notes.subscribe(async (newNotes) => {
 	if (changed) {
 		changed = false;
 	} else if (counter % 2 == 1) {
-		console.time('encode');
 		changes[changeIndex + 1] = encode(newNotes);
-		console.timeEnd('encode');
 		if (changes.length >= 20) {
 			changes.splice(0, 5);
 		}

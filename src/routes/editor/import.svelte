@@ -1,16 +1,29 @@
 <script lang="ts">
 	import { notes as noteStore } from '$lib/stores';
-	import { uniqueID } from '$lib/helpers';
+	import { map, uniqueID } from '$lib/helpers';
 	import { default_key } from '$lib/stores/notes';
 
+	import Radio from '@smui/radio';
+	import Switch from '@smui/switch';
+	import FormField from '@smui/form-field';
 	import LinearProgress from '@smui/linear-progress';
 	import { goto } from '$app/navigation';
 	import { decode, encode } from '$lib/serialization';
+
+	import convert from 'color-convert';
 
 	const types = /(\.mxl|\.musicxml|\.xml)$/;
 	let dragging = false;
 	let files: FileList;
 	let progress = 0;
+	let urls: {
+		name: string;
+		link: string;
+	}[] = [];
+
+	let split = false;
+	let splitOnTempo = false;
+	let splitOnText = false;
 
 	function dragenter(event: DragEvent & { currentTarget: EventTarget & HTMLDivElement }) {
 		for (let index = 0; index < event.dataTransfer.items.length; ++index) {
@@ -44,6 +57,7 @@
 		['2', 'x']
 	]);
 	async function generateNotesFromXML(xml: Document) {
+		urls = [];
 		progress = 0.2;
 		const title = xml.querySelector('work-title').textContent;
 		progress = 0.2;
@@ -54,19 +68,39 @@
 		let durations: number[] = [];
 		let totalDuration = 0;
 		let keysKount = 0;
+		function finilize(name?: string) {
+			notes = notes.map((note, i) => {
+				return {
+					...note,
+					color: '#' + convert.hsl.hex(Math.floor(map(i, 0, notes.length, 0, 360)), 100, 71)
+				};
+			});
+			let encoded = encode(notes);
+			decode(encoded);
+			let url = document.URL.replace('/import', '?notes=' + encoded);
+			// window.open(url, '_blank');
+			urls.push({ link: url, name: name || url });
+			notes = [];
+			durations = [];
+			totalDuration = 0;
+			keysKount = 0;
+		}
+		let lastName: string | undefined;
 		mesures.forEach((mesure, i) => {
 			progress = i / mesures.length;
 
-			let newPart = mesure.querySelector('words') != null;
-			if (newPart) {
-				let encoded = encode(notes);
-				decode(encoded);
-				let url = document.URL.replace('/import', '?notes=' + encoded);
-				window.open(url, '_blank');
-				notes = [];
-				durations = [];
-				totalDuration = 0;
-				keysKount = 0;
+			if (split) {
+				let words = mesure.querySelector('words');
+				let tempo = mesure.querySelector('metronome');
+
+				if ((tempo != null && splitOnTempo) || (words != null && splitOnText)) {
+					console.log(lastName);
+
+					if (lastName !== undefined) {
+						finilize(lastName);
+					}
+					lastName = words.textContent || tempo.querySelector('per-minute').textContent + 'bps';
+				}
 			}
 
 			const notesElems = mesure.querySelectorAll('note');
@@ -97,7 +131,7 @@
 					newNote = {
 						id: uniqueID(),
 						label: value,
-						color: '#00CDFF',
+						color: '',
 						note: value,
 						keys: Array(keysKount)
 							.fill(null)
@@ -118,8 +152,8 @@
 				keysKount++;
 			});
 		});
-		$noteStore = notes;
-		goto('/editor');
+
+		finilize(lastName);
 	}
 
 	async function handleFile(file: File) {
@@ -137,32 +171,92 @@
 	}
 </script>
 
-<div
-	on:drop|preventDefault={drop}
-	on:dragenter|preventDefault={dragenter}
-	on:dragleave|preventDefault={dragleave}
-	class="drop"
-	class:dragging
-	class:wrong={files?.[0] && !files[0].name.match(types)}
-	class:succes={files?.[0] && files[0].name.match(types)}
->
-	<input type="file" bind:files />
-	{#if files?.[0] && !files[0].name.match(types)}
-		<p>
-			file {files[0].name} has unuported type <br />
-			we support <strong>.mxl</strong> and <strong>.musicxml.xml</strong>
-		</p>
-	{:else}
-		<p>
-			drop a music file here or click to select a file <br />
+{#if urls.length === 0}
+	<div
+		on:drop|preventDefault={drop}
+		on:dragenter|preventDefault={dragenter}
+		on:dragleave|preventDefault={dragleave}
+		class="drop"
+		class:dragging
+		class:wrong={files?.[0] && !files[0].name.match(types)}
+		class:succes={files?.[0] && files[0].name.match(types)}
+	>
+		<input type="file" bind:files />
+		{#if files?.[0] && !files[0].name.match(types)}
+			<p>
+				file {files[0].name} has unuported type <br />
+				we support <strong>.mxl</strong> and <strong>.musicxml.xml</strong>
+			</p>
+		{:else}
+			<p>
+				drop a music file here or click to select a file <br />
 
-			we support <strong>.mxl</strong> and <strong>.musicxml.xml</strong>
-		</p>
-	{/if}
-</div>
-<LinearProgress {progress} closed={!(progress > 0)} />
+				we support <strong>.mxl</strong> and <strong>.musicxml.xml</strong>
+			</p>
+		{/if}
+		<div class="split">
+			<FormField>
+				<Switch bind:checked={split} />
+				<span slot="label">split music</span>
+			</FormField>
+			{#if split}
+				<FormField>
+					<Switch bind:checked={splitOnText} />
+					<span slot="label">on text</span>
+				</FormField>
+				<FormField>
+					<Switch bind:checked={splitOnTempo} />
+					<span slot="label">on new tempo</span>
+				</FormField>
+			{/if}
+		</div>
+	</div>
+	<LinearProgress {progress} closed={!(progress > 0)} />
+{:else}
+	<div class="bg">
+		<div class="container">
+			<h2>Results</h2>
+			<ul>
+				{#each urls as url}
+					<li><a href={url.link} target="_blank">{url.name}</a></li>
+				{/each}
+			</ul>
+		</div>
+	</div>
+{/if}
 
 <style lang="scss">
+	@use "../../mixins.scss";
+	.bg {
+		width: 100%;
+		position: absolute;
+		height: 100%;
+		overflow-y: scroll;
+		background: whitesmoke;
+	}
+	.container {
+		@include mixins.elevation;
+
+		position: relative;
+
+		width: clamp(600px, 90%, 1000px);
+		min-height: 100%;
+
+		margin: 0 auto;
+		padding: 1em;
+
+		font-family: 'Roboto';
+		background: #fafafa;
+
+		@media (max-width: 700px) {
+			width: 100%;
+		}
+	}
+	h2 {
+		font-size: 2em;
+		font-weight: 400;
+		text-align: center;
+	}
 	.drop {
 		display: grid;
 		place-items: center;
@@ -187,5 +281,8 @@
 		&.succes {
 			border-color: hsla(111, 100%, 35%, 0.667);
 		}
+	}
+	span[slot='label'] {
+		margin-right: 2em;
 	}
 </style>
