@@ -197,6 +197,19 @@
     "@material/theme" "^11.0.0"
     tslib "^2.1.0"
 
+"@material/linear-progress@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@material/linear-progress/-/linear-progress-11.0.0.tgz#15200798ad2ac19f1df0913c056c5ab05b26dc6d"
+  integrity sha512-lYXZ58FGF16nhkoLEIs8W52zj8/Ti5d+0mL7L8FGG9m66wtizD9FWO/r2dngKYl4t1tpqGMRfqTgOkdGWaRfwQ==
+  dependencies:
+    "@material/animation" "^11.0.0"
+    "@material/base" "^11.0.0"
+    "@material/feature-targeting" "^11.0.0"
+    "@material/progress-indicator" "^11.0.0"
+    "@material/rtl" "^11.0.0"
+    "@material/theme" "^11.0.0"
+    tslib "^2.1.0"
+
 "@material/list@^11.0.0":
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/@material/list/-/list-11.0.0.tgz#a5fb719990e0d24966b697e1253e811d4f63a797"
@@ -254,6 +267,13 @@
     "@material/rtl" "^11.0.0"
     "@material/shape" "^11.0.0"
     "@material/theme" "^11.0.0"
+    tslib "^2.1.0"
+
+"@material/progress-indicator@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@material/progress-indicator/-/progress-indicator-11.0.0.tgz#42b9b1ceb546966577f30132ab421744534b638e"
+  integrity sha512-XvLfilg2Ew6gfb0BCWEVuTn6VqBQ7LhZngEakiwoEe2ImoOSFHSBQ8sg177cSvsbUf4c2MnYN0UepfivKGaagg==
+  dependencies:
     tslib "^2.1.0"
 
 "@material/ripple@^11.0.0":
@@ -489,6 +509,14 @@
   dependencies:
     "@material/line-ripple" "^11.0.0"
     "@smui/common" "^4.1.0"
+
+"@smui/linear-progress@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@smui/linear-progress/-/linear-progress-4.2.0.tgz#11e5168d63ba2f521e528d7bb181cf92948c2285"
+  integrity sha512-qa2gYBMXmVCLD7ibZZqdpFNOCPtg+tN7f0cKOeS1JE7L0npC6CONlQhj4i9c3IHh3463W7uTfrAGkN8N1L+YrA==
+  dependencies:
+    "@material/linear-progress" "^11.0.0"
+    "@smui/common" "^4.2.0"
 
 "@smui/list@^4.1.0":
   version "4.1.0"
@@ -1906,7 +1934,14 @@ saslprep@^1.0.0:
   dependencies:
     sparse-bitfield "^3.0.3"
 
-sass@^1.32.10, sass@^1.32.8:
+sass@^1.32.10:
+  version "1.36.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.36.0.tgz#5912ef9d5d16714171ba11cb17edb274c4bbc07e"
+  integrity sha512-fQzEjipfOv5kh930nu3Imzq3ie/sGDc/4KtQMJlt7RRdrkQSfe37Bwi/Rf/gfuYHsIuE1fIlDMvpyMcEwjnPvg==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+
+sass@^1.32.8:
   version "1.32.12"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.32.12.tgz#a2a47ad0f1c168222db5206444a30c12457abb9f"
   integrity sha512-zmXn03k3hN0KaiVTjohgkg98C3UowhL1/VSGdj4/VAAiMKGQOE80PFPxFP2Kyq0OUskPKcY5lImkhBKEHlypJA==

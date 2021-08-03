@@ -29,6 +29,7 @@ const config = {
 					'@smui/tooltip',
 					'@smui/dialog',
 					'@smui/form-field',
+					'@smui/linear-progress',
 				]
 			}
 		}
