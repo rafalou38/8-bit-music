@@ -1,3 +1,5 @@
+@use '@material/button/index' as mdc-button;
+
 :root {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
 		'Open Sans', 'Helvetica Neue', sans-serif;
@@ -30,4 +32,11 @@ html {
 	font-family: 'Notes';
 	src: url('/static/fonts/notes.woff') format('woff'), url('/static/fonts/notes.ttf') format('ttf'),
 		url('/static/fonts/notes.eot') format('eot'), url('/static/fonts/notes.svg') format('svg');
+}
+
+.button-shaped-round {
+	@include mdc-button.shape-radius(999px);
+	height: 56px;
+	padding-left: 2em;
+	padding-right: 2em;
 }
